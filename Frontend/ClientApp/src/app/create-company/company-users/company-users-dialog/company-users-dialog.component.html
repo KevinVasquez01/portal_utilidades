@@ -1,0 +1,30 @@
+<div mat-dialog-content>
+    <mat-card-content>
+        <div class="text-center pro-img">
+            <img src="assets/images/companyRoles/{{data.Image}}.png" width="100" alt="user">
+        </div>
+        <div class="d-flex flex-wrap">
+            <div>
+                <h2 class="m-b-0 text-center">{{data.Name}}</h2>
+                <h5 class="m-t-0">{{data.Description}}</h5>
+                <h5 class="m-t-0">El {{data.Name}} cuenta con los siguientes permisos:</h5>
+
+                <div class="form-group pad-adjust">
+                    <div fxLayout="row">
+                        <div class="form-group col-md-12">
+                            <mat-list dense *ngFor="let item of data.Permissions">
+                                <mat-list-item>
+                                    <mat-icon class="green-small-icon">done</mat-icon>
+                                    {{item.value}}
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close mat-button color="accent">Cerrar</button>
+</div>

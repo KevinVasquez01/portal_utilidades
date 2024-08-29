@@ -1,0 +1,86 @@
+@import "variables.scss";
+// overall styles for timeline
+.clr-timeline {
+    display: flex;
+    padding: $clr-timeline-padding-width;
+}
+
+.clr-timeline-step {
+    display: flex;
+    position: relative;
+    .mat-icon {
+        font-size: $clr-timeline-icon-size;
+        width: $clr-timeline-icon-size;
+        height: $clr-timeline-icon-size;
+        min-width: $clr-timeline-icon-size;
+        min-height: $clr-timeline-icon-size;
+    }
+    .mat-icon[shape="success-standard"] {
+        color: $clr-green;
+    }
+    .mat-icon[shape="error-standard"] {
+        color: $clr-red;
+    }
+}
+
+.clr-timeline-step-header {
+    color: $clr-timeline-step-header-color;
+    line-height: $clr-timeline-step-title-line-height;
+    font-size: 14px;
+}
+
+.clr-timeline-step-title {
+    color: $clr-timeline-step-title-color;
+    line-height: $clr-timeline-step-title-line-height;
+    margin-bottom: $clr-timeline-horizontal-step-title-padding-bottom;
+    font-size: 14px;
+}
+
+.clr-timeline-step-description {
+    color: $clr-timeline-step-description-color;
+    font-size: 12px;
+}
+
+// specific styles for vertical timeline
+.clr-timeline.clr-timeline-vertical {
+    flex-direction: column;
+    min-width: $clr-timeline-vertical-min-width;
+    .clr-timeline-step {
+        flex-direction: row;
+        &:not(:last-of-type) {
+            margin-bottom: $clr-timeline-vertical-gutter-width;
+        }
+        // style for the connecting line between icons
+        &:not(:last-of-type) .clr-timeline-step-body::before {
+            content: "";
+            position: absolute;
+            background: $clr-timeline-line-color;
+            width: $clr-timeline-line-thickness;
+            height: calc(100% + 2 * #{$clr-timeline-icon-inner-padding});
+            transform: translate( -0.5 * ($clr-timeline-icon-size - $clr-timeline-line-thickness) - $clr-timeline-icon-inner-padding - $clr-timeline-vertical-step-body-left-padding, $clr-timeline-icon-size - $clr-timeline-icon-inner-padding - $clr-timeline-vertical-step-body-top-padding);
+        }
+    }
+    .clr-timeline-step-header {
+        text-align: right;
+        min-width: $clr-timeline-vertical-step-header-min-width;
+        width: $clr-timeline-vertical-step-header-min-width;
+        margin-right: $clr-timeline-vertical-step-header-right-padding;
+        margin-top: $clr-timeline-vertical-step-header-top-padding;
+    }
+    .clr-timeline-step-body {
+        display: flex;
+        flex-direction: column;
+        min-width: $clr-timeline-vertical-step-min-width;
+        margin-left: $clr-timeline-vertical-step-body-left-padding;
+        margin-top: $clr-timeline-vertical-step-body-top-padding;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,29 @@
+[{
+        "Name": "Issuer",
+        "Name_Spanish": "Emisor"
+    },
+    {
+        "Name": "Payroll Issuer",
+        "Name_Spanish": "Emisor de Nómina"
+    },
+    {
+        "Name": "Receiver",
+        "Name_Spanish": "Receptor"
+    },
+    {
+        "Name": "Receiver Viewer",
+        "Name_Spanish": "Receptor Visor"
+    },
+    {
+        "Name": "Issuer Viewer",
+        "Name_Spanish": "Emissor Visor"
+    },
+    {
+        "Name": "Payroll Viewer",
+        "Name_Spanish": "Visor de Nómina"
+    },
+    {
+        "Name": "Company Administrator",
+        "Name_Spanish": "Administrador de la Empresa"
+    }
+]

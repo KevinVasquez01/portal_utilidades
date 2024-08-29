@@ -1,0 +1,27 @@
+<div *ngIf="!generado" fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+          <mat-card-title>Generar Informe</mat-card-title>
+      <div fxLayout="row wrap" class="align-items-center">
+          <div fxFlex.gt-md="75" fxFlex.gt-lg="75" fxFlex="100">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [formControl]="date" placeholder="Seleccione fecha para búsqueda" />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100" class="text-right">
+            <button mat-raised-button (click)="usersMovements()" color="primary">
+              Buscar Movimientos
+            </button>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div *ngIf="generado">
+  <app-users-movements-results [dataEntrante]="Movements" [nameExcel]="NameExcel" (dataSaliente)="close()"></app-users-movements-results>
+</div>

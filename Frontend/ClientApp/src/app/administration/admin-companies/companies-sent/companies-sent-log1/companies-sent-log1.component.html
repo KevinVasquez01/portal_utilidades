@@ -1,0 +1,16 @@
+<mat-card>
+    <mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+        <mat-card-subtitle>Log ambiente <span class="{{ambiente == 'QA' ? 'bg-warning' : 'bg-success'}} text-white rounded font-12 pl-5 pr-5">{{ambiente}}</span></mat-card-subtitle>
+        <ul class="clr-timeline clr-timeline-vertical">
+            <li class="clr-timeline-step" *ngFor="let element of dataSource">
+                <div class="clr-timeline-step-header">{{ element.date | date: "h:mm:ss a" }}</div>
+                <mat-icon *ngIf="element.status" shape="success-standard" aria-label="Completed" matTooltip="Resultado: Ok">check_circle</mat-icon>
+                <mat-icon *ngIf="!element.status" shape="error-standard" aria-label="Error" matTooltip="Resultado: Error">error</mat-icon>
+                <div class="clr-timeline-step-body">
+                    <span class="clr-timeline-step-title">{{ element.module }}</span>
+                    <span class="clr-timeline-step-description">{{ element.message }}</span>
+                </div>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>

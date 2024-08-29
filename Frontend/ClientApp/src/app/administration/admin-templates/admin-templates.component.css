@@ -1,0 +1,16 @@
+.green-icon {
+    color: green;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    padding: 5px 5px;
+}
+
+.mat-cell {
+    font-size: 12px;
+}

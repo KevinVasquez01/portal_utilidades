@@ -1,0 +1,185 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>Recuperar Nóminas Electrónicas</mat-card-title>
+            <mat-card-subtitle
+              >Por favor seleccione los documentos a Recuperar</mat-card-subtitle
+            >
+          </div>
+          <div class="ml-auto">
+            <ul class="list-inline">
+              <li>
+                <div class="button-row">
+                  <button mat-raised-button color="primary" (click)="exportExcel()">
+                    Excel
+                  </button>
+                  <button *ngIf="complete()"
+                  (click)="runRecovery()"
+                  mat-raised-button color="accent">
+                    Recuperar Documentos Seleccionados
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap">
+          <div fxFlex="100">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Filtrar por error"
+                (keyup)="filter($event.target.value)"
+              />
+            </mat-form-field>
+          </div>
+
+          <div xFlex="100" class="table-responsive">
+            <table mat-table [dataSource]="payrollstagingdocumentsList" matSort>
+              <ng-container matColumnDef="chk">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    [checked]="allSelected"
+                    [indeterminate]="someComplete()"
+                    (change)="setAll($event.checked)"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-checkbox
+                    [(ngModel)]="element.Selected"
+                    (ngModelChange)="updateAllComplete()"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="VirtualOperatorAlias">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  OV
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  {{ element.VirtualOperatorAlias }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DocumentNumber">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  Número
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  {{ element.DocumentNumber }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="EmployerIdentification">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  Nit Emisor
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  {{ element.EmployerIdentification }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="CreationDate">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  Emisión
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  {{ element.CreationDate | date: "d/M h:mm:ss a" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ErrorMessage">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  Mensaje Error
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  <p>
+                    {{ element.Error_ExplanationValue }}
+                  </p>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Description">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-medium font-14 p-20"
+                >
+                  Descripción Error
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="font-normal font-12 p-20"
+                >
+                  <p>
+                    {{ element.Error_Description }}
+                  </p>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

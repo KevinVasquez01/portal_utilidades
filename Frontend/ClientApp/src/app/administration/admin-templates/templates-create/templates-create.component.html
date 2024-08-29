@@ -1,0 +1,149 @@
+<mat-card>
+    <mat-card-content>
+        <div class="d-flex flex-wrap">
+            <div>
+                <mat-card-title>Nuevo Template</mat-card-title>
+                <mat-card-subtitle>Crear nuevo Template</mat-card-subtitle>
+            </div>
+        </div>
+
+        <div *ngIf="(documentTypes.length === 0 || defaultTemplates.length === 0) && !firstgettingDE">
+            <h4>No fue posible obtener DataElments</h4>
+            <div class="button-row">
+                <button *ngIf="!gettingDE" mat-fab color="primary" matTooltip="Obtener DataElments" (click)="awaitDataElments()">
+          <mat-icon aria-label="Reload">refresh</mat-icon>
+        </button>
+                <mat-spinner *ngIf="gettingDE"></mat-spinner>
+            </div>
+        </div>
+
+        <mat-spinner *ngIf="firstgettingDE"></mat-spinner>
+
+
+        <mat-accordion *ngIf="documentTypes.length > 0 && defaultTemplates.length > 0 && !gettingDE" class="headers-align">
+            <!-- Tipo de Documento -->
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Tipo de Documento </mat-panel-title>
+                    <mat-panel-description> {{documentTypeSelected.Name == '' ? 'Seleccione el tipo de Documento' : documentTypeSelected.Name}}
+                        <mat-icon class="{{alertDocumentType && documentTypeSelected.Name == '' ? 'red-icon' : (documentTypeSelected.Name == '' ? 'blue-icon' : 'green-icon')}}">adjust</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="form-group pad-adjust">
+                    <!-- Tipo Documento. -->
+                    <mat-form-field class="input-width">
+                        <mat-label>Tipo de Documento</mat-label>
+                        <mat-select (selectionChange)="ShowSubTypes($event.value)">
+                            <mat-option *ngFor="let dato of documentTypes" value="{{ dato.Code }}">{{ dato.Name | translate }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- Sub tipo de documento -->
+                    <section *ngIf="showSubTypes" class="subtypes-section">
+                        <span class="subtypes-list-section">
+                        <mat-checkbox class="subtypes-margin"
+                                      [checked]="showSubTypes_all_Selected"
+                                      [indeterminate]="someComplete()"
+                                      (change)="setAll($event.checked)">
+                          Subtipos de Documento: {{documentTypeSelected.Name | translate }}
+                        </mat-checkbox>
+                      </span>
+                        <span class="subtypes-list-section">
+                        <ul>
+                          <li *ngFor="let subType of documentTypeSelected.SubTypes">
+                            <mat-checkbox [(ngModel)]="subType.Included"
+                                          (ngModelChange)="updateAllComplete()">
+                              {{subType.Name | translate }}
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                      </span>
+                    </section>
+                </div>
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <!-- Origen Template -->
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Origen </mat-panel-title>
+                    <mat-panel-description> {{templateSelected.content == '' ? 'Seleccione el origen del Template' : templateSelected.name }}
+                        <mat-icon class="{{alertOriginTemplate && templateSelected.content == '' ? 'red-icon' : (templateSelected.content == '' ? 'blue-icon' : 'green-icon')}}">folder_open</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Linea 1. -->
+                <div class="form-group pad-adjust">
+                    <div class="row">
+                        <!-- Templates por defecto. -->
+                        <div class="form-group col-md-12">
+                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                                <mat-button-toggle *ngFor="let template of defaultTemplatesforSelected" [value]="template.id" (click)="ChangeTemplateSelection(template)">{{template.name}}</mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linea 2. -->
+                <div *ngIf="templateSelected.documentType == 'any'" class="form-group pad-adjust">
+                    <div class="row">
+                        <!-- Templates por defecto. -->
+                        <div class="form-group col-md-12">
+                            <input type="file" (change)="UploadFile($event)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linea 3. -->
+                <div *ngIf="templateSelected.content != ''" class="form-group pad-adjust">
+                    <form [formGroup]="FormGroup">
+                        <div class="row">
+                            <!-- Código. -->
+                            <div class="form-group col-md-12">
+                                <h4 class="margintop">Código fuente Template</h4>
+                                <textarea formControlName="Teamplate" readonly class="text-area" #textarea [scrollTop]="textarea.scrollHeight"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+                    <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <!-- Compañías -->
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Compañías </mat-panel-title>
+                    <mat-panel-description> {{companies_to_add.length == 0 ? 'Seleccione una o más compañías' : companies_to_add.length + (companies_to_add.length == 1 ? ' Compañía seleccionada' : ' Compañías seleccionadas') }}
+                        <mat-icon class="{{alertCompanies && companies_to_add.length == 0 ? 'red-icon' : (companies_to_add.length == 0 ? 'blue-icon' : 'green-icon')}}">domain</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div *ngIf="companies_to_add.length == 0" class="form-group pad-adjust">
+                    <div class="row buttonAling">
+                        <div class="form-group col-md-2">
+                            <h4>Agregar compañía</h4>
+                            <button mat-fab color="primary" (click)="AddCompanies()">
+                            <mat-icon aria-label="Button con icono" matTooltip="Agregar compañías">library_add</mat-icon>
+                          </button>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-chip-list #chipList multiple="true">
+                    <mat-chip *ngFor="let company of companies_to_add" [value]="company.Id" [selectable]="true" [removable]="true" (removed)="RemoverCompany(company)">
+                        {{company.Name}}
+                        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+                    <button mat-raised-button *ngIf="creando" disabled (click)="CreateTemplate()" color="accent">Crear Template</button>
+                    <button mat-raised-button *ngIf="!creando" (click)="CreateTemplate()" color="accent">Crear Template</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-progress-bar *ngIf="creando" mode="indeterminate"></mat-progress-bar>
+    </mat-card-content>
+</mat-card>

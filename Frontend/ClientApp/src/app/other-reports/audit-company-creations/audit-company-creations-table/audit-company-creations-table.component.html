@@ -1,0 +1,121 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <!-- Descargar -->
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <div class="d-flex align-items-center">
+              <!-- Estadística -->
+              <div fxFlex.gt-sm="80" fxFlex.gt-xs="80" fxFlex="80">
+                <mat-card-title>Descargar Informe Empresas autorizadas o Eliminadas</mat-card-title>
+                <h6 class="text-muted m-0">Periodo seleccionado</h6>
+              </div>
+              <div class="ml-auto">
+                <div class="button-row">
+                  <button mat-mini-fab color="accent" (click)="exportExcel()">
+                    Excel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap">
+          <mat-form-field appearance="standard">
+            <mat-label>Buscar</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)" #input />
+          </mat-form-field>
+        </div>
+
+        <div class="responsive-table">
+          <mat-table [dataSource]="dataSource" matSort>
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ row.Fecha }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- distributor Column -->
+            <ng-container matColumnDef="distributor">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Distribuidor
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ row.Distribuidor }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- documentNumber Column -->
+            <ng-container matColumnDef="documentNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Documento
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Documento }} </mat-cell>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Razón Social
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ row["Razón Social"] }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- ambients Column -->
+            <ng-container matColumnDef="ambients">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Ambientes
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Ambientes }} </mat-cell>
+            </ng-container>
+
+            <!-- services Column -->
+            <ng-container matColumnDef="services">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Servicios
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Servicios }} </mat-cell>
+            </ng-container>
+
+            <!-- user Column -->
+            <ng-container matColumnDef="user">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Usuario
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ cutUser(row.Usuario) }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Acción
+              </mat-header-cell>
+              <mat-cell
+                *matCellDef="let row"
+                [style.color]="actionText(row['Acción'])"
+              >
+                {{ row["Acción"] }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

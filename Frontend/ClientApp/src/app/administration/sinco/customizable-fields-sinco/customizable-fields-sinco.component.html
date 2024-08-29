@@ -1,0 +1,672 @@
+<!-- Fill form -->
+<div *ngIf="!results" fxLayout="row wrap">
+  <!-- column Crear Templates-->
+  <div
+    *ngIf="!showlogs"
+    fxFlex.gt-lg="{{ searchisclosed > 0 ? '100' : '56' }}"
+    fxFlex.gt-md="{{ searchisclosed > 0 ? '100' : '56' }}"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <div fxLayout="row wrap">
+      <!-- Tipos de Documento y Empresas-->
+      <div
+        *ngIf="!running"
+        fxFlex.gt-lg="{{
+          searchisclosed &&
+          companies_to_add.length > 0 &&
+          documentsTypesSelected() > 0
+            ? '40'
+            : 100
+        }}"
+        fxFlex.gt-md="{{
+          searchisclosed &&
+          companies_to_add.length > 0 &&
+          documentsTypesSelected() > 0
+            ? '40'
+            : 100
+        }}"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+      >
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Tipos de Documento</mat-card-title>
+            <mat-card-subtitle
+              >Seleccione los tipos de Documento a
+              Parametrizar</mat-card-subtitle
+            >
+            <div fxLayout="row wrap" class="b-b m-b-30 p-b-5">
+              <!-- FE -->
+              <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card>
+                  <div
+                    class="box p-20 {{
+                      salesInvoice_Included ? 'bg-info' : ''
+                    }} text-center cursor-pointer"
+                    (click)="documentIncluded('salesInvoice')"
+                  >
+                    <h3
+                      class="font-light {{
+                        salesInvoice_Included ? 'text-white' : ''
+                      }} m-0"
+                    >
+                      Factura
+                    </h3>
+                    <h3
+                      class="font-light {{
+                        salesInvoice_Included ? 'text-white' : ''
+                      }} m-0"
+                    >
+                      de Venta
+                    </h3>
+                  </div>
+                </mat-card>
+              </div>
+              <!-- NC -->
+              <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card>
+                  <div
+                    class="box p-20 {{
+                      creditNote_Included ? 'bg-warning' : ''
+                    }} text-center cursor-pointer"
+                    (click)="documentIncluded('creditNote')"
+                  >
+                    <h3
+                      class="font-light {{
+                        creditNote_Included ? 'text-white' : ''
+                      }} m-0"
+                    >
+                      Nota
+                    </h3>
+                    <h3
+                      class="font-light {{
+                        creditNote_Included ? 'text-white' : ''
+                      }} m-0"
+                    >
+                      Crédito
+                    </h3>
+                  </div>
+                </mat-card>
+              </div>
+
+              <h4
+                *ngIf="
+                  companies_to_add.length > 0 && documentsTypesSelected() === 0
+                "
+              >
+                <code class="bg-light"
+                  >Por favor seleccione un tipo de Documento</code
+                >
+              </h4>
+            </div>
+
+            <mat-card-title
+              >{{
+                companies_to_add.length > 0
+                  ? companies_to_add.length + " "
+                  : ""
+              }}Compañía{{
+                companies_to_add.length > 1 ? "s" : ""
+              }}</mat-card-title
+            >
+            <mat-card-subtitle *ngIf="companies_to_add.length > 0"
+              >Seleccione las Compañías a Parametrizar</mat-card-subtitle
+            >
+            <div
+              *ngIf="companies_to_add.length == 0"
+              class="form-group pad-adjust"
+            >
+              <div class="row buttonAling">
+                <div class="form-group col-md-2">
+                  <h4>Agregar compañía</h4>
+                  <button mat-fab color="primary" (click)="addCompanies()">
+                    <mat-icon
+                      aria-label="Button con icono"
+                      matTooltip="Agregar compañías"
+                      >library_add</mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <mat-chip-list #chipList multiple="true">
+              <mat-chip
+                *ngFor="let company of companies_to_add"
+                [value]="company.Id"
+                [selectable]="true"
+                [removable]="true"
+                (removed)="removeCompany(company)"
+              >
+                {{ company.Name }}
+                <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Campos personalizables-->
+      <div
+        *ngIf="
+          documentsTypesSelected() > 0 &&
+          searchisclosed &&
+          companies_to_add.length > 0 && !running
+        "
+        fxFlex.gt-lg="60"
+        fxFlex.gt-md="60"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+      >
+        <mat-card>
+          <mat-card-content>
+            <div class="d-flex no-block align-items-center">
+              <h4 class="font-medium m-b-0 m-t-0">Campos personalizables</h4>
+              <a
+                mat-icon-button
+                matTooltip="Más información"
+                (click)="openContentElement('camposP')"
+              >
+                <mat-icon class="text-info">help_outline</mat-icon>
+              </a>
+              <div class="ml-auto">
+                <mat-chip-list class="ml-auto">
+                  <mat-chip
+                    *ngIf="salesInvoice_Included"
+                    class="mat-chip-fe"
+                    selected
+                    >FV</mat-chip
+                  >
+                  <mat-chip
+                    *ngIf="creditNote_Included"
+                    class="mat-chip-nc"
+                    selected
+                    >NC</mat-chip
+                  >
+                </mat-chip-list>
+              </div>
+            </div>
+            <mat-card-subtitle
+              >Ingrese la información de los campos
+              personalizables</mat-card-subtitle
+            >
+            <!-- Linea 1. -->
+            <div class="form-group pad-adjust">
+              <div class="row">
+                <!-- Campo Personalizable 1. -->
+                <div class="form-group col-md-12">
+                  <mat-form-field>
+                    <mat-label>Campo Personalizable 1 ({{countActuallyLines(campoP1) + ' líneas de ' + SINCO_PARAM_MAX_CP1}}). Se recomiendan máximo 5 Lineas</mat-label>
+                    <textarea
+                      matInput
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="{{ SINCO_PARAM_MAX_CP1 }}"
+                      [(ngModel)]="campoP1"
+                    ></textarea>
+                    <button
+                      mat-button
+                      *ngIf="campoP1"
+                      matSuffix
+                      mat-icon-button
+                      aria-label="Clear"
+                      (click)="campoP1 = ''"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <!-- Linea 2. -->
+            <div class="form-group pad-adjust">
+              <div class="row">
+                <!-- Campo Personalizable 2. -->
+                <div class="form-group col-md-12">
+                  <mat-form-field>
+                    <mat-label>Campo Personalizable 2 ({{countActuallyLines(campoP2) + ' líneas de ' + SINCO_PARAM_MAX_CP2}}). Se recomiendan máximo 5 Lineas</mat-label>
+                    <textarea
+                      matInput
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="{{ SINCO_PARAM_MAX_CP2 }}"
+                      [(ngModel)]="campoP2"
+                    ></textarea>
+                    <button
+                      mat-button
+                      *ngIf="campoP2"
+                      matSuffix
+                      mat-icon-button
+                      aria-label="Clear"
+                      (click)="campoP2 = ''"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <!-- Linea 3. -->
+            <div class="form-group pad-adjust">
+              <div class="row">
+                <!-- Campo Personalizable 3. -->
+                <div class="form-group col-md-12">
+                  <mat-form-field>
+                    <mat-label>Campo Personalizable 3 ({{countActuallyLines(campoP3) + ' líneas de ' + SINCO_PARAM_MAX_CP3}}). Se recomiendan máximo 5 Lineas</mat-label>
+                    <textarea
+                      matInput
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="{{ SINCO_PARAM_MAX_CP3 }}"
+                      [(ngModel)]="campoP3"
+                    ></textarea>
+                    <button
+                      mat-button
+                      *ngIf="campoP3"
+                      matSuffix
+                      mat-icon-button
+                      aria-label="Clear"
+                      (click)="campoP3 = ''"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Otros campos-->
+      <div
+        *ngIf="
+          documentsTypesSelected() > 0 &&
+          searchisclosed &&
+          companies_to_add.length > 0
+          && !running
+        "
+        fxFlex.gt-lg="100"
+        fxFlex.gt-md="100"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+      >
+        <!-- Tabla productos-->
+        <div
+          fxFlex.gt-lg="{{ documentsTypesSelected() > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-md="{{ documentsTypesSelected() > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-xs="100"
+          fxFlex="100"
+        >
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex no-block align-items-center">
+                <h4 class="font-medium m-b-0 m-t-0">Tabla productos</h4>
+                <a
+                  mat-icon-button
+                  matTooltip="Más información"
+                  (click)="openContentElement('TProductos')"
+                >
+                  <mat-icon class="text-info">help_outline</mat-icon>
+                </a>
+                <div class="ml-auto">
+                  <mat-chip-list class="ml-auto">
+                    <mat-chip
+                      *ngIf="salesInvoice_Included"
+                      class="mat-chip-fe"
+                      selected
+                      >FV</mat-chip
+                    >
+                    <mat-chip
+                      *ngIf="creditNote_Included"
+                      class="mat-chip-nc"
+                      selected
+                      >NC</mat-chip
+                    >
+                  </mat-chip-list>
+                </div>
+              </div>
+
+              <mat-card-subtitle
+                >Por favor seleccione las columnas a Mostrar/Ocultar en la tabla
+                de productos</mat-card-subtitle
+              >
+
+              <!-- Linea 1. -->
+              <div class="form-group pad-adjust">
+                <div class="row">
+                  <!-- Campos. -->
+                  <div class="form-group col-md-12">
+                    <section class="main-section">
+                      <span class="main-list-section">
+                        <mat-checkbox
+                          class="main-margin"
+                          [checked]="main_all_Selected"
+                          [indeterminate]="someComplete_M()"
+                          (change)="setAll_M($event.checked)"
+                        >
+                          {{
+                            main_all_Selected
+                              ? "Borrar selección"
+                              : "Seleccionar Todos"
+                          }}
+                        </mat-checkbox>
+                      </span>
+                      <span class="main-list-section">
+                        <ul>
+                          <li *ngFor="let main of mainTypes">
+                            <mat-checkbox
+                              [(ngModel)]="main.Included"
+                              (ngModelChange)="updateAllComplete_M()"
+                            >
+                              {{ main.Name }}
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                      </span>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Totales FV-->
+        <div
+          *ngIf="salesInvoice_Included"
+          fxFlex.gt-lg="{{ documentsTypesSelected() > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-md="{{ documentsTypesSelected(9) > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-xs="100"
+          fxFlex="100"
+        >
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex no-block align-items-center">
+                <h4 class="font-medium m-b-0 m-t-0">Totales</h4>
+                <a
+                  mat-icon-button
+                  matTooltip="Más información"
+                  (click)="openContentElement('TotalesFV')"
+                >
+                  <mat-icon class="text-info">help_outline</mat-icon>
+                </a>
+                <div class="ml-auto">
+                  <mat-chip-list class="ml-auto">
+                    <mat-chip class="mat-chip-fe" selected>FV</mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
+              <mat-card-subtitle
+                >Seleccione los campos a Mostrar/Ocultar en la sección de
+                Totales</mat-card-subtitle
+              >
+
+              <!-- Linea 1. -->
+              <div class="form-group pad-adjust b-b m-b-30 p-b-5">
+                <div class="row">
+                  <!-- Campos. -->
+                  <div class="form-group col-md-12">
+                    <section class="main-section">
+                      <span class="main-list-section">
+                        <mat-checkbox
+                          class="main-margin"
+                          [checked]="footer_all_Selected"
+                          [indeterminate]="someComplete_F()"
+                          (change)="setAll_F($event.checked)"
+                        >
+                          {{
+                            footer_all_Selected
+                              ? "Borrar selección"
+                              : "Seleccionar Todos"
+                          }}
+                        </mat-checkbox>
+                      </span>
+                      <span class="main-list-section">
+                        <ul>
+                          <li *ngFor="let foot of footerTypesFV">
+                            <mat-checkbox
+                              [(ngModel)]="foot.Included"
+                              (ngModelChange)="updateAllComplete_F()"
+                            >
+                              {{ foot.Name }}
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                      </span>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Campos por Demanda FV-->
+              <div>
+                <div class="d-flex no-block align-items-center">
+                  <h4 class="font-medium m-b-0 m-t-0">Campos por Demanda</h4>
+                  <a
+                    mat-icon-button
+                    matTooltip="Más información"
+                    (click)="openContentElement('CDemandaFV')"
+                  >
+                    <mat-icon class="text-info">help_outline</mat-icon>
+                  </a>
+                  <div class="ml-auto">
+                    <mat-chip-list class="ml-auto">
+                      <mat-chip class="mat-chip-fe" selected>FV</mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+                <mat-card-subtitle
+                  >Seleccione los Campos por Demanda a
+                  Mostrar/Ocultar</mat-card-subtitle
+                >
+
+                <!-- Linea 1. -->
+                <div class="form-group pad-adjust">
+                  <div class="row">
+                    <!-- Campos. -->
+                    <div class="form-group col-md-12">
+                      <ul>
+                        <li *ngFor="let demanda of demandaTypesFV">
+                          <mat-checkbox [(ngModel)]="demanda.Included">
+                            {{ demanda.Name }}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Totales NC-->
+        <div
+          *ngIf="creditNote_Included"
+          fxFlex.gt-lg="{{ documentsTypesSelected() > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-md="{{ documentsTypesSelected() > 1 ? '33.3' : '50' }}"
+          fxFlex.gt-xs="100"
+          fxFlex="100"
+        >
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex no-block align-items-center">
+                <h4 class="font-medium m-b-0 m-t-0">Totales</h4>
+                <a
+                  mat-icon-button
+                  matTooltip="Más información"
+                  (click)="openContentElement('TotalesNC')"
+                >
+                  <mat-icon class="text-info">help_outline</mat-icon>
+                </a>
+                <div class="ml-auto">
+                  <mat-chip-list class="ml-auto">
+                    <mat-chip class="mat-chip-nc" selected>NC</mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
+
+              <mat-card-subtitle
+                >Seleccione los campos a Mostrar/Ocultar en la sección de
+                Totales</mat-card-subtitle
+              >
+
+              <!-- Linea 1. -->
+              <div class="form-group pad-adjust b-b m-b-30 p-b-5">
+                <div class="row">
+                  <!-- Campos. -->
+                  <div class="form-group col-md-12">
+                    <section class="main-section">
+                      <span class="main-list-section">
+                        <mat-checkbox
+                          class="main-margin"
+                          [checked]="footer_all_SelectedNC"
+                          [indeterminate]="someComplete_NC()"
+                          (change)="setAll_NC($event.checked)"
+                        >
+                          {{
+                            footer_all_SelectedNC
+                              ? "Borrar selección"
+                              : "Seleccionar Todos"
+                          }}
+                        </mat-checkbox>
+                      </span>
+                      <span class="main-list-section">
+                        <ul>
+                          <li *ngFor="let foot of footerTypesNC">
+                            <mat-checkbox
+                              [(ngModel)]="foot.Included"
+                              (ngModelChange)="updateAllComplete_NC()"
+                            >
+                              {{ foot.Name }}
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                      </span>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Campos por Demanda NC-->
+              <div>
+                <div class="d-flex no-block align-items-center">
+                  <h4 class="font-medium m-b-0 m-t-0">Campos por Demanda</h4>
+                  <a
+                    mat-icon-button
+                    matTooltip="Más información"
+                    (click)="openContentElement('CDemandaNC')"
+                  >
+                    <mat-icon class="text-info">help_outline</mat-icon>
+                  </a>
+                  <div class="ml-auto">
+                    <mat-chip-list class="ml-auto">
+                      <mat-chip class="mat-chip-nc" selected>NC</mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+                <mat-card-subtitle
+                  >Seleccione los Campos por Demanda a
+                  Mostrar/Ocultar</mat-card-subtitle
+                >
+
+                <!-- Linea 1. -->
+                <div class="form-group pad-adjust">
+                  <div class="row">
+                    <!-- Campos. -->
+                    <div class="form-group col-md-12">
+                      <ul>
+                        <li *ngFor="let demanda of demandaTypesNC">
+                          <mat-checkbox [(ngModel)]="demanda.Included">
+                            {{ demanda.Name }}
+                          </mat-checkbox>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Enviar-->
+      <div
+        *ngIf="
+          documentsTypesSelected() > 0 &&
+          companies_to_add.length > 0 &&
+          searchisclosed
+        "
+        fxFlex.gt-lg="100"
+        fxFlex.gt-md="100"
+        fxFlex.gt-xs="100"
+        fxFlex="100"
+      >
+        <mat-card>
+          <mat-card-content>
+            <div class="d-flex align-items-center">
+              <h3 class="m-t-0">
+                {{
+                  running
+                    ? avance()
+                    : "Crear Campos Personalizables"
+                }}
+              </h3>
+              <div *ngIf="!running" class="ml-auto">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="createQuestion()"
+                >
+                  Crear
+                </button>
+              </div>
+            </div>
+            <mat-progress-bar
+              *ngIf="running"
+              mode="indeterminate"
+            ></mat-progress-bar>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- column Buscar Compañías -->
+  <div
+    *ngIf="!searchisclosed"
+    fxFlex.gt-lg="44"
+    fxFlex.gt-md="44"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-search-company
+      [tittle]="search_tittle"
+      [subtittle]="search_subtittle"
+      [buttontooltip]="search_buttontooltip"
+      (datasaliente)="receiveCompanySearch($event)"
+      (closesaliente)="receiveCompanySearchClose($event)"
+    >
+    </app-search-company>
+  </div>
+</div>
+
+<!-- Running and results -->
+<div *ngIf="results" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-customizable-fields-sinco-table
+      [finalTranslationsResources]="finalTranslationsResources"
+      [results_finalTranslationsResources]="results_finalTranslationsResources"
+      (retryEvent)="receiveRetry()"
+    >
+    </app-customizable-fields-sinco-table>
+  </div>
+</div>

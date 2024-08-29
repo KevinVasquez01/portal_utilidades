@@ -1,0 +1,74 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <mat-card-title
+            >Descargar Informe:</mat-card-title
+          >
+          <div class="ml-auto">
+            <div class="button-row">
+              <button mat-mini-fab color="accent" (click)="exportExcel()">
+                Excel
+              </button>
+
+              <button mat-mini-fab color="warn" (click)="exportJSON()">
+                Json
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="responsive-table">
+          <mat-table [dataSource]="dataSource" matSort>
+            <!-- Aliado Column -->
+            <ng-container matColumnDef="Aliado">
+              <mat-header-cell *matHeaderCellDef> Aliado </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row['Aliado'] }} </mat-cell>
+            </ng-container>
+
+            <!-- nombre Column -->
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef> Razón Social </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row['Razón Social'] }} </mat-cell>
+            </ng-container>
+
+            <!-- Documento Column -->
+            <ng-container matColumnDef="Documento">
+              <mat-header-cell *matHeaderCellDef> Documento </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row['Documento'] }} </mat-cell>
+            </ng-container>
+
+            <!-- FE Column -->
+            <ng-container matColumnDef="FE">
+              <mat-header-cell *matHeaderCellDef> FE </mat-header-cell>
+              <mat-cell *matCellDef="let row" [style.color]="row['Facturación Electrónica'] !== 'Inactivo' ? 'green' : 'red'"> {{ row['Facturación Electrónica'] }} </mat-cell>
+            </ng-container>
+
+            <!-- DS Column -->
+            <ng-container matColumnDef="DS">
+              <mat-header-cell *matHeaderCellDef>DS</mat-header-cell>
+              <mat-cell *matCellDef="let row" [style.color]="row['Documento Soporte'] !== 'Inactivo' ? 'green' : 'red'"> {{ row['Documento Soporte'] }} </mat-cell>
+            </ng-container>
+
+            <!-- NE Column -->
+            <ng-container matColumnDef="NE">
+              <mat-header-cell *matHeaderCellDef> NE </mat-header-cell>
+              <mat-cell *matCellDef="let row" [style.color]="row['Nómina Electrónica'] !== 'Inactivo' ? 'green' : 'red'"> {{ row['Nómina Electrónica'] }} </mat-cell>
+            </ng-container>
+
+            <!-- RFE Column -->
+            <ng-container matColumnDef="RFE">
+              <mat-header-cell *matHeaderCellDef> R FE </mat-header-cell>
+              <mat-cell *matCellDef="let row" [style.color]="row['Recepción Facturación'] !== 'Inactivo' ? 'green' : 'red'"> {{ row['Recepción Facturación'] }} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<!-- ============================================================== -->
+<!-- Fixed height Card Grid-->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title
+          >Consultando Documentos Emitidos y Recibidos</mat-card-title
+        >
+        <mat-card-subtitle
+          >Del periodo {{ actually_action[0]?.start | date: "short" }} al
+          {{ actually_action[0]?.end | date: "short" }}</mat-card-subtitle
+        >
+        <mat-grid-list cols="10" rowHeight="100px">
+          <ng-container *ngFor="let item of actually_action; index as i">
+            <!-- Avance Compañias -->
+            <mat-grid-tile
+              colspan="{{
+                item.count != 0 || !item.have_companies ? '7' : '10'
+              }}"
+              rowspan="1"
+            >
+              <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <h3 *ngIf="item.count != 0 || !item.have_companies" class="m-0">
+                  <mat-icon [class]="i % 2 == 0 ? 'text-info' : 'text-success'"
+                    >label_important</mat-icon
+                  >
+                  Empresa {{ item.executed }} de {{ item.count }}
+                </h3>
+                <h6 class="text-muted m-t-0 m-b-10">{{ item.executed != item.count ? item.action : (item.count > 0 ? 'Finalizado': item.action) }}</h6>
+                <mat-progress-bar
+                  [mode]="
+                    item.count != 0 || !item.have_companies
+                      ? 'determinate'
+                      : 'indeterminate'
+                  "
+                  [value]="
+                    item.count != 0 || !item.have_companies
+                      ? (item.executed * 100) / item.count
+                      : 0
+                  "
+                  class="{{i % 2 == 0 ? 'blue-progress-bar' : 'aqua-progress-bar'}}"
+                ></mat-progress-bar>
+              </div>
+            </mat-grid-tile>
+
+            <!-- Operador Virtual -->
+            <mat-grid-tile
+              *ngIf="item.count != 0 || !item.have_companies"
+              colspan="3"
+              rowspan="1"
+            >
+              <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card>
+                  <div [class]="i % 2 == 0 ? 'box p-20 bg-info text-center' : 'box p-20 bg-success text-center'">
+                    <h5 class="font-light text-white m-0 text-truncate">{{ item.ov }}</h5>
+                    <span *ngIf="total_OVs > 1" class="font-light text-white m-0 font-12">OV {{ i + 1 }} de {{total_OVs}}</span>
+                  </div>
+                </mat-card>
+              </div>
+            </mat-grid-tile>
+          </ng-container>
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<h3 class="font-medium m-b-0 m-t-0">{{ action === "Add" ? "Crear" : "Editar" }} Botón de Inicio</h3>
+<h6>
+  Consulte la lista de íconos disponibles
+  <code
+    ><a href="https://fontawesome.com/v4/icons/" target="_blank">Aquí</a></code
+  >
+</h6>
+
+<mat-dialog-content class="mat-typography">
+  <form #task="ngForm">
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        required
+        id="faIcon"
+        name="faIcon"
+        [(ngModel)]="local_data.faIcon"
+        placeholder="Ícono"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        required
+        id="tittle"
+        name="tittle"
+        [(ngModel)]="local_data.tittle"
+        placeholder="Título"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        required
+        id="text"
+        name="text"
+        [(ngModel)]="local_data.text"
+        placeholder="Texto"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="url"
+        matInput
+        required
+        id="url"
+        name="url"
+        [(ngModel)]="local_data.url"
+        placeholder="Enlace (URL)"
+      />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end">
+  <button
+    mat-button
+    (click)="doAction()"
+    color="warn"
+    [disabled]="task.invalid"
+  >
+    <span *ngIf="action === 'Edit'">Guardar</span>
+    <span *ngIf="action === 'Add'">Añadir</span>
+  </button>
+  <button mat-button (click)="closeDialog()" mat-flat-button>Cancelar</button>
+</div>

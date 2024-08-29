@@ -1,0 +1,124 @@
+<mat-card>
+    <mat-card-content>
+        <div class="d-flex flex-wrap">
+            <div>
+                <mat-card-title>{{tittle}}</mat-card-title>
+                <mat-card-subtitle>{{subtittle}}</mat-card-subtitle>
+            </div>
+            <div *ngIf="showClosebutton" class="ml-auto">
+                <h6 class="text-success m-0">
+                    <button mat-button color="warn" (click)="close()">Cerrar</button>
+                </h6>
+            </div>
+        </div>
+
+        <div class="form-group pad-adjust">
+            <div class="row">
+                <!-- Operador Virtual. -->
+                <div class="form-group col-md-12">
+                    <mat-form-field class="input-width">
+                        <mat-label>Operador Virtual</mat-label>
+                        <mat-select (selectionChange)="changeOperator($event.value)" [(value)]="opvSelected.Alias">
+                            <input class="input-width" placeholder="Buscar..." (keyup)="onKey_opv($event)" />
+                            <mat-option *ngFor="let dato of selected_opv" value="{{ dato.Alias }}">{{ dato.Name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- NIT. -->
+                <div class="form-group col-md-5">
+                    <mat-form-field class="input-width">
+                        <mat-label>NIT</mat-label>
+                        <input type="text" [(ngModel)]="CompanySearchnit" matInput/>
+                    </mat-form-field>
+                </div>
+
+                <!-- Nombre. -->
+                <div class="form-group col-md-7">
+                    <mat-form-field class="input-width">
+                        <mat-label>Nombre</mat-label>
+                        <input type="text" [(ngModel)]="CompanySearchname" matInput/>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Actions. -->
+                <div class="form-group col-md-12 text-end">
+                    <button mat-raised-button (click)="SearhCompany()" color="accent">Buscar</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <table mat-table [dataSource]="dataSource" matSort class="align-middle mb-0 table table-borderless table-hover">
+                <!-- Servicios -->
+                <ng-container cdkColumnDef="services">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>Servicios</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <!-- FV. -->
+                        <span *ngIf="row.InvoiceIssuingServiceActive" matTooltip="Factura de Venta" class="bg-success text-white rounded font-10 pl-5 pr-5">FV</span>
+                        <span>&nbsp;</span>
+                        <!-- DS. -->
+                        <span *ngIf="row.SupportDocumentIssuingServiceActive" matTooltip="Documento Soporte" class="bg-warning text-white rounded font-10 pl-5 pr-5">DS</span>
+                        <span>&nbsp;</span>
+                        <!-- NI. -->
+                        <span *ngIf="row.PayrollIssuingServiceActive" matTooltip="Nómina Electrónica" class="bg-primary text-white rounded font-10 pl-5 pr-5">NE</span>
+                        <span>&nbsp;</span>
+                        <!-- RE. -->
+                        <span *ngIf="row.InvoiceReceptionServiceActive" matTooltip="Recepción Electrónica" class="bg-danger text-white rounded font-10 pl-5 pr-5">RE</span>
+                        <!-- Ninguno. -->
+                        <span *ngIf="!row.InvoiceIssuingServiceActive && !row.SupportDocumentIssuingServiceActive && !row.PayrollIssuingServiceActive && !row.InvoiceReceptionServiceActive" matTooltip="Ningún servicio Activo" class="bg-secondary text-white rounded font-10 pl-5 pr-5">NA</span>
+                    </td>
+                </ng-container>
+
+                <!-- Tipo -->
+                <ng-container matColumnDef="documentType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                    <td mat-cell *matCellDef="let row">{{ row.DocumentType }}</td>
+                </ng-container>
+
+                <!-- Número de Documento -->
+                <ng-container matColumnDef="documentNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
+                    <td mat-cell *matCellDef="let row">
+                        <div>{{ row.Identification.DocumentNumber }}-{{ row.Identification.CheckDigit }}</div>
+                    </td>
+                </ng-container>
+
+                <!-- Nombre empresa -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nombre empresa
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <div>{{ row.Name }}</div>
+                    </td>
+                </ng-container>
+
+                <!-- Acciones -->
+                <ng-container cdkColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                    <td mat-cell *matCellDef="let element">
+                        <div>
+                            <button matTooltip="{{buttontooltip}}" mat-icon-button class="icon-button-small" (click)="addcompany(element)">
+                          <mat-icon class="material-icons green-icon">check_circle</mat-icon>
+                        </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <!-- Filter result. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                        No hay compañías que conincidan con el filtro
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+    </mat-card-content>
+</mat-card>

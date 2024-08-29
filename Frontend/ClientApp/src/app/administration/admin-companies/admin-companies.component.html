@@ -1,0 +1,20 @@
+<div fxLayout="row wrap">
+    <!-- column Editar Compañía -->
+    <div *ngIf="editing" fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+        <app-edit-company></app-edit-company>
+    </div>
+
+    <!-- column Log Compañías creadas -->
+    <div *ngIf="companyLogsvisible" fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+        <app-companies-sent></app-companies-sent>
+    </div>
+
+    <!-- column Compañías pendientes -->
+    <div fxFlex.gt-lg="{{companiesPendingtoAuthorize.length > 0 ? 56 : 100}}" fxFlex.gt-md="{{companiesPendingtoAuthorize.length > 0 ? 56 : 100}}" fxFlex.gt-xs="100" fxFlex="100">
+        <app-companies-pending></app-companies-pending>
+    </div>
+    <!-- column Compañías por autorizar-->
+    <div *ngIf="companiesPendingtoAuthorize.length > 0 ? true : false" fxFlex.gt-lg="44" fxFlex.gt-md="44" fxFlex.gt-xs="100" fxFlex="100">
+        <app-companies-to-authorize></app-companies-to-authorize>
+    </div>
+</div>

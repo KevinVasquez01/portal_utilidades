@@ -1,0 +1,26 @@
+.container-1 {
+  position: relative;
+  min-height: 200px;
+}
+
+.loading-shade-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.select-all{
+  margin: 5px 17px;
+}
+
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+

@@ -1,0 +1,30 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <mat-card-title>Cantidad de empresas con servicio activo por Aliado</mat-card-title>
+        </div>
+        <div id="chart" class="d-flex flex-column">
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions"
+            [yaxis]="chartOptions.yaxis"
+            [legend]="chartOptions.legend"
+            [fill]="chartOptions.fill"
+            [stroke]="chartOptions.stroke"
+            [tooltip]="chartOptions.tooltip"
+            [xaxis]="chartOptions.xaxis"
+          ></apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Widgets2 -->
+  <div *ngFor="let widget of widgets2" fxFlex.gt-sm="33" fxFlex.gt-xs="100" fxFlex="100">
+    <app-companies-service-state-widgets [widgets]="widget"></app-companies-service-state-widgets>
+  </div>
+</div>

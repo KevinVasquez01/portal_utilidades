@@ -1,0 +1,50 @@
+<!-- ============================================================== -->
+<!-- Widgets-->
+<!-- ============================================================== -->
+<mat-card>
+  <mat-card-content class="p-b-0 m-b-0">
+    <div class="d-flex no-block align-items-center">
+      <h4 class="font-medium m-b-0 m-t-0">{{ title }}</h4>
+      <div class="ml-auto">
+        <span matLine class="font-light font-12 text-{{ widget_number }}"
+          >Total Documentos: {{ totalDocumentos | number }}</span
+        >
+      </div>
+    </div>
+    <div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+      <h6 class="font-medium m-b-0 m-t-0">{{ subtitle }}</h6>
+    </div>
+
+    <div style="margin-top: -50px" #containertopEmisionFE class="w100">
+      <ngx-charts-pie-grid
+        class="chart-container"
+        [view]="[
+          containertopEmisionFE.offsetWidth,
+          containertopEmisionFE.offsetHeight
+        ]"
+        [scheme]="colorScheme"
+        [results]="single"
+        [designatedTotal]="totalDocumentos"
+        [minWidth]="120"
+      >
+      </ngx-charts-pie-grid>
+    </div>
+  </mat-card-content>
+  <mat-list *ngIf="top_companies">
+    <mat-card-content style="margin-top: -60px" class="p-t-0">
+      <mat-list-item
+        *ngFor="let item of topRecibido; index as i"
+        style="margin-top: -20px"
+      >
+        <mat-icon mat-list-icon class="text-{{ widget_number }}"
+          >filter_{{ i + 1 }}</mat-icon
+        >
+        <span matLine class="font-light font-8">{{ item?.Nombre }}</span>
+        <span matLine class="font-light font-6">
+          {{ item?.Nit ? "Nit: " + item?.Nit : "" }}
+          {{ item?.Aliado_OV ? "- " + item?.Aliado_OV : "" }}
+        </span>
+      </mat-list-item>
+    </mat-card-content>
+  </mat-list>
+</mat-card>

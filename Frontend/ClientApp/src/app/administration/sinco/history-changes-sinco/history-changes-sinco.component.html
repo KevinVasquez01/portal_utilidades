@@ -1,0 +1,37 @@
+<div *ngIf="state.number == 0" fxLayout="row wrap">
+  <div fxFlex.gt-lg="60" fxFlex.gt-md="60" fxFlex.gt-xs="100" fxFlex="100">
+    <app-history-changes-sinco-topchanges
+      (changeSelected)="receiveTopChangeCompany($event)"
+    ></app-history-changes-sinco-topchanges>
+  </div>
+  <div fxFlex.gt-lg="40" fxFlex.gt-md="40" fxFlex.gt-xs="100" fxFlex="100">
+    <app-search-company
+      [tittle]="'Buscar Histórico'"
+      [subtittle]="'Seleccione compañía para ver histórico de cambios'"
+      [showClosebutton]="false"
+      [showNotifications]="false"
+      [buttontooltip]=""
+      (datasaliente)="receiveCompanySearch($event)"
+    >
+    </app-search-company>
+  </div>
+</div>
+
+<!-- Cambios compañia seleccionada -->
+<div *ngIf="state.number == 1" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-history-changes-sinco-currentcompany
+      [companyName]="companyName_Selected"
+      [companyDocument]="companyDocument_Selected"
+      [companyDV]="companyDV_Selected"
+      (close)="receiveCurrentCompanyClose($event)"
+    ></app-history-changes-sinco-currentcompany>
+  </div>
+</div>
+
+<!-- Nuevo cambio -->
+<div *ngIf="state.number == 5" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-history-changes-sinco-new-change></app-history-changes-sinco-new-change>
+  </div>
+</div>

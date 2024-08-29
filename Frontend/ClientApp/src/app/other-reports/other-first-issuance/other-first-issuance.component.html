@@ -1,0 +1,128 @@
+<div fxLayout="row wrap">
+  <!-- ============================================================== -->
+  <!-- Cargando -->
+  <!-- ============================================================== -->
+  <div *ngIf="at_moment.action == 0" fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-1 m-t-5">
+          <div *ngIf="!at_moment.error" class="loading-shade-1">
+            <!-- Cargando -->
+            <div>
+              <mat-spinner></mat-spinner>
+            </div>
+          </div>
+
+          <!-- Error Data Elements -->
+          <div
+            *ngIf="at_moment.action == 0 && at_moment.error"
+            class="loading-shade-1"
+          >
+            <h4>No fue posible obtener Operadores Virtuales</h4>
+            <div class="button-row">
+              <button
+                *ngIf="!gettingDE"
+                mat-fab
+                color="primary"
+                matTooltip="Intentar nuevamente"
+                (click)="awaitVirtualOperators()"
+              >
+                <mat-icon aria-label="Reload">refresh</mat-icon>
+              </button>
+              <mat-spinner *ngIf="gettingDE"></mat-spinner>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Filtros Buscar-->
+  <!-- ============================================================== -->
+  <div *ngIf="at_moment.action == 1" fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Generar informe</mat-card-title>
+        <mat-card-subtitle
+          >Por favor seleccione los OVs, para generar informe</mat-card-subtitle
+        >
+        <!-- ============================================================== -->
+        <!-- Parametros busqueda -->
+        <!-- ============================================================== -->
+        <div fxLayout="row wrap" class="align-items-center">
+          <!-- Operador Virtual -->
+          <div fxFlex.gt-sm="80" fxFlex="100">
+            <mat-form-field appearance="standard">
+              <mat-label>Operador virtual</mat-label>
+              <mat-select #select multiple>
+                <mat-select-trigger>
+                  {{ OVsSelected[0]?.Name }}
+                  <span
+                    *ngIf="OVsSelected.length > 1"
+                    class="additional-selection"
+                  >
+                    + {{ OVsSelected.length === 2 ? "" : "Otros" }}
+                    {{ OVsSelected.length - 1 }}
+                  </span>
+                </mat-select-trigger>
+                <div class="select-all">
+                  <mat-checkbox
+                    [(ngModel)]="allSelected"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="toggleAllSelection()"
+                    >Todos</mat-checkbox
+                  >
+                </div>
+                <mat-option
+                  (click)="optionClick()"
+                  *ngFor="let ov of filteredopvs"
+                  [value]="ov.Alias"
+                >
+                  {{ ov.Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div
+            *ngIf="OVsSelected.length > 0"
+            fxFlex.gt-md="20"
+            class="text-right"
+          >
+            <button mat-raised-button (click)="generate()" color="accent">
+              Generar Informe
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Generando-->
+  <!-- ============================================================== -->
+  <div *ngIf="at_moment.action == 2" fxFlex.gt-sm="100" fxFlex="100">
+    <app-other-first-issuance-state
+      [actually_action]="actually_action"
+      [total_OVs]="OVsSelected.length"
+    ></app-other-first-issuance-state>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Widgets-->
+  <!-- ============================================================== -->
+  <div *ngIf="at_moment.action == 4" fxFlex.gt-sm="100" fxFlex="100">
+    <app-other-first-issuance-widgets
+      [dataEntrante]="Empresas_OV_Count"
+    ></app-other-first-issuance-widgets>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Exportar-->
+  <!-- ============================================================== -->
+  <div *ngIf="at_moment.action == 4" fxFlex.gt-sm="100" fxFlex="100">
+    <app-other-first-issuance-results
+      [table]="Documents_M_Empresa"
+    ></app-other-first-issuance-results>
+  </div>
+</div>

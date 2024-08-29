@@ -1,0 +1,100 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style pages.scss -->
+<!-- ============================================================== -->
+<div
+  class="main-container"
+  [dir]="dir"
+  [ngClass]="{
+    minisidebar: minisidebar,
+    boxed: boxed,
+    danger: danger,
+    blue: blue,
+    dark: dark,
+    green: green,
+    horizontal: horizontal
+  }"
+>
+  <!-- ============================================================== -->
+  <!-- Toast -->
+  <!-- ============================================================== -->
+  <toast-messages></toast-messages>
+  <!-- ============================================================== -->
+  <!-- Topbar - style header.scss -->
+  <!-- ============================================================== -->
+  <mat-toolbar color="primary" class="topbar relative">
+    <div class="w-100 fix-width-for-horizontal">
+      <!-- ============================================================== -->
+      <!-- sidebar toggle -->
+      <!-- ============================================================== -->
+      <button
+        mat-icon-button
+        (click)="snav.toggle()"
+        class="sidebar-toggle"
+        value="sidebarclosed"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- ============================================================== -->
+      <span fxFlex></span>
+      <!-- ============================================================== -->
+      <!-- app header component - style header.scss / header.component.ts-->
+      <!-- ============================================================== -->
+      <app-vertical-header></app-vertical-header>
+    </div>
+  </mat-toolbar>
+  <!-- ============================================================== -->
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+    [ngClass]="{ minisidebar: minisidebar }"
+  >
+    <!-- ============================================================== -->
+    <!-- Sidebar - style sidebar.scss -->
+    <!-- ============================================================== -->
+    <mat-sidenav
+      #snav
+      id="snav"
+      class="pl-xs"
+      [mode]="mobileQuery.matches ? 'side' : 'over'"
+      fixedTopGap="0"
+      [opened]="mobileQuery.matches"
+      [disableClose]="mobileQuery.matches"
+      (open)="sidebarOpened = true"
+      (close)="sidebarOpened = false"
+    >
+      <perfect-scrollbar
+        *ngIf="!horizontal; else horizontalsidebar"
+        class="scbar"
+        [config]="config"
+      >
+        <app-vertical-sidebar
+          class="app-sidebar"
+          [showClass]="status"
+          (notify)="snav.toggle()"
+        >
+        </app-vertical-sidebar>
+      </perfect-scrollbar>
+
+      <ng-template #horizontalsidebar>
+        <app-horizontal-sidebar></app-horizontal-sidebar>
+      </ng-template>
+    </mat-sidenav>
+
+    <!-- ============================================================== -->
+    <!-- Page container - style pages.scss -->
+    <!-- ============================================================== -->
+    <mat-sidenav-content
+      class="page-wrapper"
+      [ngClass]="status ? 'minitoggle' : ''"
+    >
+      <app-breadcrumb></app-breadcrumb>
+      <div class="page-container">
+        <div class="page-content">
+          <router-outlet>
+            <app-spinner></app-spinner>
+          </router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

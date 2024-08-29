@@ -1,0 +1,59 @@
+<div fxLayout="row wrap" class="align-items-center">
+  <div
+    *ngIf="companies_log_result.length == 0"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Seleccione las Compañías</mat-card-title>
+        <mat-card-subtitle>Creación de plan o paquete</mat-card-subtitle>
+        <div *ngIf="!loading" class="button-row">
+          <button
+            mat-raised-button
+            color="primary"
+            matTooltip="Descargar Excel de Compañías Ejemplo"
+            (click)="exportExcel_Example()"
+          >
+            <mat-icon>cloud_download</mat-icon>
+            <span> Excel ejemplo</span>
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            matTooltip="Cargar Excel de compañías"
+            (click)="fileInput.click()"
+          >
+            <mat-icon>cloud_upload</mat-icon>
+            <span> Excel de Compañías</span>
+            <input
+              type="file"
+              style="display: none"
+              (change)="selectFile($event)"
+              #fileInput
+              accept=".xlsx, .xls, .csv"
+            />
+          </button>
+        </div>
+      </mat-card-content>
+      <mat-card-actions *ngIf="loading">
+        <mat-progress-bar mode="indeterminate" value="40"></mat-progress-bar>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div
+    *ngIf="companies_log_result.length > 0"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-enablement-load-companies-errorlog
+      [companiesLogs]="companies_log_result"
+      (exit)="receiveLogClose($event)"
+    ></app-enablement-load-companies-errorlog>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>{{ data.tittle }}</h1>
+<mat-dialog-content>
+  <mat-list>
+    <mat-list-item *ngFor="let item of textos">
+      <h3 matLine>{{ item }}</h3>
+    </mat-list-item>
+  </mat-list>
+
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="2%"></div>
+    <div fxFlex.gt-sm="98%">
+      <mat-list>
+        <mat-list-item *ngFor="let item of lista">
+          <h3 matLine>{{ item.item }}</h3>
+          <p matLine class="text-muted">{{ item.descrition }}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+  <h6 *ngIf="data.info != ''" class="text-info">
+    <mat-icon class="orange-icon">info</mat-icon> {{ data.info }}
+  </h6>
+  <img src="assets/images/customizable-fields-sinco/{{ data.image }}.jpg" />
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

@@ -1,0 +1,79 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>Recuperar Facturación Electrónica</mat-card-title>
+            <mat-card-subtitle>Resultados de la recuperación</mat-card-subtitle>
+          </div>
+          <div class="ml-auto">
+            <ul class="list-inline">
+              <li>
+                <div class="button-row">
+                  <button mat-button color="primary" (click)="exportExcel()">
+                    Exportar a Excel
+                  </button>
+                  <button mat-button color="warn" (click)="exit()">
+                    Cerrar
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="responsive-table">
+          <mat-table #table [dataSource]="invoicestagingdocumentsList">
+            <!-- VirtualOperatorAlias Column -->
+            <ng-container matColumnDef="VirtualOperatorAlias">
+              <mat-header-cell *matHeaderCellDef> Alias OV </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.VirtualOperatorAlias }} </mat-cell>
+            </ng-container>
+
+             <!-- DocumentType Column -->
+             <ng-container matColumnDef="DocumentType">
+              <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.DocumentType | translate }} </mat-cell>
+            </ng-container>
+
+            <!-- DocumentNumber Column -->
+            <ng-container matColumnDef="DocumentNumber">
+              <mat-header-cell *matHeaderCellDef> Número </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.DocumentNumber }} </mat-cell>
+            </ng-container>
+
+            <!-- SupplierIdentification Column -->
+            <ng-container matColumnDef="SupplierIdentification">
+              <mat-header-cell *matHeaderCellDef> Nit Emisor </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.SupplierIdentification }} </mat-cell>
+            </ng-container>
+
+            <!-- CreationDate Column -->
+            <ng-container matColumnDef="CreationDate">
+              <mat-header-cell *matHeaderCellDef> Emisión </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.CreationDate | date: "d/M h:mm:ss a" }} </mat-cell>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="Status">
+              <mat-header-cell *matHeaderCellDef> Estatus </mat-header-cell>
+              <mat-cell *matCellDef="let element" [style.color]="styleColor(element.Status)"> {{ element.Status }} </mat-cell>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="Description">
+              <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.Error_Description }} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+
+          <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]">
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div fxLayout="row wrap">
+  <!-- column Cargar compañías -->
+  <div *ngIf="paso==0" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-massive-plans-packages-load-companies
+    (companies_for_massive)="receiveLoadCompany($event)"
+    ></app-massive-plans-packages-load-companies>
+  </div>
+
+  <!-- column resultados -->
+  <div *ngIf="paso==1" fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-massive-plans-packages-select [data]="companies_load" (close)="receiveSelectClose($event)" (companiesResults)="receiveSelectResults($event)"></app-massive-plans-packages-select>
+  </div>
+
+   <!-- column crear planes -->
+   <div *ngIf="paso==2" fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-massive-plans-packages-results [data]="companies_result" (close)="receiveResultsClose($event)"></app-massive-plans-packages-results>
+  </div>
+</div>

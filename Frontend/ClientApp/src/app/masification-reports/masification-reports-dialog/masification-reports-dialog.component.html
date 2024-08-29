@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.titulo}}</h1>
+<div mat-dialog-content>
+  <p>{{data.mensaje}}</p>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-raised-button color="accent" (click)="aceptar()" [mat-dialog-close]="data" cdkFocusInitial>Sí</button>
+  <button mat-raised-button color="primary" (click)="cancelar()" [mat-dialog-close]="data" >No, gracias</button>
+</div>

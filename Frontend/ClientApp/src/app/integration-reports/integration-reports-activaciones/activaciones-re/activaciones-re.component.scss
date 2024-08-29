@@ -1,0 +1,64 @@
+.course-header {
+  &.Ejecutar {
+    background-color: #7D3C98;
+  }
+
+  &.Ejecutando {
+    background-color: #ffb22b;
+  }
+
+  &.Error {
+    background-color: #fc4b6c;
+  }
+
+  color: #fff;
+
+  .mat-card-title {
+    font-size: 15px !important;
+    display: flex;
+    align-items: center;
+
+    .course-duration {
+      margin-left: auto !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+  }
+}
+
+.mat-ejecutar {
+  background-color: #7D3C98;
+  color: #fff;
+}
+
+.mat-error {
+  background-color: #fc4b6c;
+  color: #fff;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #ffb22b !important;
+}
+
+.mat-card-actions {
+  border-top: 1px solid rgba(120, 130, 140, 0.13) !important;
+  padding: 8px 0 !important;
+}
+
+.container-1 {
+  position: relative;
+  min-height: 200px;
+}
+
+.loading-shade-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

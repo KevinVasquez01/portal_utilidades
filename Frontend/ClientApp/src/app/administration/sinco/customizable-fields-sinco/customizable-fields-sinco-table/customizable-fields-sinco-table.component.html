@@ -1,0 +1,73 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <h3 class="m-t-0">Resultados del envío</h3>
+          <div *ngIf="retry" class="ml-auto">
+            <button mat-raised-button color="primary" (click)="reintentar()">
+              Reintentar
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <mat-table [dataSource]="dataSource" matSort>
+            <!-- Clave Column -->
+            <ng-container matColumnDef="Clave">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Clave
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Clave }} </mat-cell>
+            </ng-container>
+
+             <!-- Idioma Column -->
+             <ng-container matColumnDef="Idioma">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Idioma
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Idioma }} </mat-cell>
+            </ng-container>
+
+            <!-- Descripcion Column -->
+            <ng-container matColumnDef="Descripcion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Descripción
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.Descripcion }} </mat-cell>
+            </ng-container>
+
+            <!-- Resultado Column -->
+            <ng-container matColumnDef="Resultado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Resultado
+              </mat-header-cell>
+              <mat-cell
+                *matCellDef="let row"
+                [style.color]="row.Resultado ? 'green' : 'red'"
+              >
+                {{ row.Resultado ? 'Ok' : 'Error' }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- MensajeError Column -->
+            <ng-container matColumnDef="MensajeError">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Mensaje
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ row.MensajeError }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

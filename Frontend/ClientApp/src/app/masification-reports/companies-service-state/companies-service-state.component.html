@@ -1,0 +1,53 @@
+<div fxLayout="row wrap">
+  <!-- Generar -->
+  <div *ngIf="!showresults" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <h3 *ngIf="!running" class="m-t-0">
+            Generar Informe de Servicios Activos por Empresa
+          </h3>
+          <div *ngIf="!running && !error" class="ml-auto">
+            <button mat-raised-button color="primary" (click)="runReport()">
+              Generar Informe
+            </button>
+          </div>
+
+          <h3 *ngIf="running" class="m-t-0">
+            Generando Informe de Servicios Activos por Empresa
+          </h3>
+        </div>
+        <mat-progress-bar
+          *ngIf="running"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- Widgets -->
+  <div
+    *ngIf="showresults && !error"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-companies-service-state-widget [widgets]="comapniesWidgets"></app-companies-service-state-widget>
+  </div>
+
+  <!-- Table -->
+  <div
+    *ngIf="showresults && !error"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-companies-service-state-table
+      [table]="companiesState"
+    ></app-companies-service-state-table>
+  </div>
+
+
+
+
+
+</div>

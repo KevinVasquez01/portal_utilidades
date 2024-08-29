@@ -1,0 +1,84 @@
+<mat-card>
+  <mat-card-content>
+      <div class="d-flex flex-wrap">
+          <div>
+              <mat-card-title>Resultados</mat-card-title>
+              <mat-card-subtitle>Resultado del envío</mat-card-subtitle>
+          </div>
+          <div class="ml-auto">
+              <ul class="list-inline">
+                  <li>
+                      <h6 class="text-success m-0">
+                          <button mat-button color="primary" (click)="close()">Cerrar</button>
+                      </h6>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort #sort="matSort">
+          <!-- documentType Column -->
+          <ng-container matColumnDef="documentType">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  {{ element.Company_Utilities.documentType }}
+              </mat-cell>
+          </ng-container>
+
+          <!-- documentNumber Column -->
+          <ng-container matColumnDef="documentNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Documento
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  {{ element.Company_Utilities.documentNumber }}
+              </mat-cell>
+          </ng-container>
+
+          <!-- name Column -->
+          <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Nombre empresa
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <div *ngIf="element.Company_Utilities.name != ''">{{ element.Company_Utilities.name }}</div>
+                  <div *ngIf="element.Company_Utilities.firstName != ''">{{ element.Company_Utilities.firstName }} {{ element.Company_Utilities.middleName }} {{ element.Company_Utilities.familyName }}</div>
+              </mat-cell>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column -->
+          <ng-container matColumnDef="expandedDetail">
+              <mat-cell *matCellDef="let detail">
+                  <div fxLayout="row wrap">
+                      <!-- Log-->
+                      <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+                          <app-companies-sent-log1 *ngIf="detail.Messages_PRD.length > 0" [messages]="detail.Messages_PRD" [ambiente]="'PRD'"></app-companies-sent-log1>
+                          <app-companies-sent-log1 *ngIf="detail.Messages_QA.length > 0" [messages]="detail.Messages_QA" [ambiente]="'QA'"></app-companies-sent-log1>
+                      </div>
+                  </div>
+              </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Resultado</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <button mat-icon-button *ngIf="expandedElement != element" [class.expanded]="expandedElement == element" (click)="expandedElement = element">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+                  <button mat-icon-button *ngIf="expandedElement == element" [class.expanded]="expandedElement == undefined" (click)="expandedElement = undefined">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+                  <i *ngIf="element.General_Result" matTooltip="Resultado: Ok" class="green-icon m-0 mdi mdi-checkbox-blank-circle font-15 m-r-10"></i>
+                  <i *ngIf="!element.General_Result" matTooltip="Resultado: Error" class="text-danger m-0 mdi mdi-checkbox-blank-circle font-15 m-r-10"></i>
+              </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns" matRipple class="element-row"></mat-row>
+          <mat-row *matRowDef="let row; columns: ['expandedDetail']" [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'" style="overflow: hidden">
+          </mat-row>
+      </mat-table>
+      <mat-paginator class="paginator" #MatPaginator pageSize="5"></mat-paginator>
+      <div>
+      </div>
+  </mat-card-content>
+</mat-card>

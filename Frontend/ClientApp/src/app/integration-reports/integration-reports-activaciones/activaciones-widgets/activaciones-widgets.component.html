@@ -1,0 +1,219 @@
+<!-- ============================================================== -->
+<!-- Cajas Simples -->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <!-- w1 -->
+  <div fxFlex.gt-lg="25" fxFlex.gt-md="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button
+              mat-fab
+              mat-card-icon
+              class="shadow-none bg-inverse bg-success"
+            >
+              <mat-icon>content_paste</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h4 class="m-0">{{ w1.tittle }}</h4>
+            <h6 class="text-muted m-0">{{ w1.text1 }}</h6>
+            <h6 class="text-muted m-0">{{ w1.text2 }}</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- w1 -->
+  <!-- w2 -->
+  <div fxFlex.gt-lg="25" fxFlex.gt-md="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button
+              mat-fab
+              color="warn"
+              mat-card-icon
+              class="shadow-none bg-warning"
+            >
+              <mat-icon>verified_user</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h4 class="m-0">{{ w2.tittle }}</h4>
+            <h6 class="text-muted m-0">{{ w2.text1 }}</h6>
+            <h6 class="text-muted m-0">{{ w2.text2 }}</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- w2 -->
+  <!-- w3 -->
+  <div fxFlex.gt-lg="25" fxFlex.gt-md="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button mat-fab color="accent" mat-card-icon class="shadow-none">
+              <mat-icon>fiber_new</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h4 class="m-0">{{ w3.tittle }}</h4>
+            <h6 class="text-muted m-0">{{ w3.text1 }}</h6>
+            <h6 class="text-muted m-0">{{ w3.text2 }}</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- w3 -->
+  <!-- w4 -->
+  <div fxFlex.gt-lg="25" fxFlex.gt-md="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button
+              mat-fab
+              color="warn"
+              mat-card-icon
+              class="shadow-none bg-danger"
+            >
+              <mat-icon>monetization_on</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h4 class="m-0">{{ w4.tittle }}</h4>
+            <h6 class="text-muted m-0">{{ w4.text1 }}</h6>
+            <h6 class="text-muted m-0">{{ w4.text2 }}</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- w4 -->
+</div>
+
+<!-- ============================================================== -->
+<!-- Gráficos-->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <!-- total nuevas empresas -->
+  <div
+    *ngIf="layouts_totalEmpresas >= 50"
+    fxFlex.gt-lg="{{ layouts_totalEmpresas }}"
+    fxFlex.gt-md="{{ layouts_totalEmpresas }}"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>Total nuevas empresas</mat-card-title>
+          </div>
+          <div class="ml-auto">
+            <h6 class="text-success m-0">
+              <button
+                mat-icon-button
+                color="{{ layouts_totalEmpresas > 50 ? 'warn' : 'accent' }}"
+                (click)="change_layouts('totalEmpresas')"
+              >
+                <mat-icon>{{
+                  layouts_totalEmpresas > 50 ? "zoom_out" : "zoom_in"
+                }}</mat-icon>
+              </button>
+            </h6>
+          </div>
+        </div>
+      </mat-card-content>
+      <!-- Row -->
+      <div #containerNuevasEmpresas class="{{ layouts_totalEmpresas > 50 ? 'w200' : 'w100' }}">
+        <ngx-charts-advanced-pie-chart
+          class="chart-container"
+          [view]="[
+            containerNuevasEmpresas.offsetWidth,
+            containerNuevasEmpresas.offsetHeight
+          ]"
+          [label]="labelCompaniesTotal"
+          [scheme]="colorScheme"
+          [results]="company_count"
+          [gradient]="gradient"
+        >
+        </ngx-charts-advanced-pie-chart>
+      </div>
+    </mat-card>
+  </div>
+  <!-- total nuevas empresas -->
+  <!-- total dinero -->
+  <div
+    *ngIf="layouts_dineroEmpresas >= 50"
+    fxFlex.gt-lg="{{ layouts_dineroEmpresas }}"
+    fxFlex.gt-md="{{ layouts_dineroEmpresas }}"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>Dinero por Operador Virtual</mat-card-title>
+          </div>
+          <div class="ml-auto">
+            <h6 class="text-success m-0">
+              <button
+                mat-icon-button
+                color="{{ layouts_dineroEmpresas > 50 ? 'warn' : 'accent' }}"
+                (click)="change_layouts('dineroEmpresas')"
+              >
+                <mat-icon>{{
+                  layouts_dineroEmpresas > 50 ? "zoom_out" : "zoom_in"
+                }}</mat-icon>
+              </button>
+            </h6>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <div #containerDinero class="{{ layouts_dineroEmpresas > 50 ? 'w200' : 'w100' }}">
+        <ngx-charts-bar-vertical
+          [view]="[containerDinero.offsetWidth, containerDinero.offsetHeight]"
+          class="chart-container"
+          [scheme]="colorScheme"
+          [results]="company_money"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [tooltipDisabled]="tooltipDisabled"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [showGridLines]="showGridLines"
+          [barPadding]="40"
+          [roundDomains]="roundDomains"
+          [yAxisTickFormatting]="yAxisTickFormatting"
+        >
+        </ngx-charts-bar-vertical>
+      </div>
+    </mat-card>
+  </div>
+  <!-- total dinero -->
+</div>

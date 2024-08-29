@@ -1,0 +1,95 @@
+<h1 mat-dialog-title>Añadir Aliado</h1>
+<div mat-dialog-content>
+  <form name="eventForm" [formGroup]="eventForm" class="event-form" fxFlex>
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100">
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            name="OV_Name"
+            formControlName="OV_Name"
+            placeholder="Alias OV (Saphety)"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100">
+        <mat-form-field fxFlex>
+          <input
+            matInput
+            type="text"
+            currencyInput
+            placeholder="Valor Activación FE"
+            name="Invoice_Activation_Value"
+            formControlName="Invoice_Activation_Value"
+            required
+          />
+        </mat-form-field>
+        <span fxFlex="16px"></span>
+        <mat-form-field fxFlex>
+          <input
+            matInput
+            type="text"
+            currencyInput
+            placeholder="Valor Activación DS"
+            name="Support_Document_Value"
+            formControlName="Support_Document_Value"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayout.lt-sm="column" fxFlex="100">
+        <mat-form-field fxFlex>
+          <input
+            matInput
+            type="text"
+            currencyInput
+            placeholder="Valor Activación RE"
+            name="Reception_Activation_Value"
+            formControlName="Reception_Activation_Value"
+            required
+          />
+        </mat-form-field>
+        <span fxFlex="16px"></span>
+        <mat-form-field fxFlex>
+          <input
+            matInput
+            type="text"
+            currencyInput
+            placeholder="Valor Activación NE"
+            name="PayRoll_Activation_Value"
+            formControlName="PayRoll_Activation_Value"
+            required
+          />
+        </mat-form-field>
+        <span fxFlex="16px"></span>
+        <mat-form-field fxFlex>
+          <input
+            matInput
+            type="text"
+            currencyInput
+            placeholder="Valor Activación DE"
+            name="Equivalent_Document_Value"
+            formControlName="Equivalent_Document_Value"
+            required
+          />
+        </mat-form-field>
+        <span fxFlex="16px"></span>
+
+
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="dialogRef.close({ action: 'save', event: eventForm.value })"
+        [disabled]="eventForm.invalid"
+        aria-label="SAVE"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

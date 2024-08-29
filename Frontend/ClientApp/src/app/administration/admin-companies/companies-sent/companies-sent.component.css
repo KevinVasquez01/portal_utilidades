@@ -1,0 +1,24 @@
+.blue-icon {
+    color: blue;
+}
+
+.green-icon {
+    color: green;
+}
+
+.red-icon {
+    color: red;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    padding: 2px 2px;
+}
+
+.mat-cell {
+    font-size: 12px;
+}

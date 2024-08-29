@@ -1,0 +1,124 @@
+{
+"_Root": "http://3.147.82.52:90/",
+"Root":"http://localhost:3000/",
+  "GET": [
+    {
+      "key": "Profiles",
+      "value": "UtilidadesAPI/Profiles"
+    },
+    {
+      "key": "GetCompaniesPending",
+      "value": "UtilidadesAPI/Companies/GetCompaniesPending"
+    },
+    {
+      "key": "GetCompaniesfrom",
+      "value": "UtilidadesAPI/Companies/GetCompaniesfrom"
+    },
+    {
+      "key": "SearchCompany",
+      "value": "UtilidadesAPI/Companies"
+    },
+    {
+      "key": "DataElements",
+      "value": "UtilidadesAPI/DataElements"
+    },
+    {
+      "key": "DefaultTemplates",
+      "value": "UtilidadesAPI/DefaultTemplates"
+    },
+    {
+      "key": "GetReportsHistory",
+      "value": "UtilidadesAPI/ReportsHistory/GetReportsHistory"
+    },
+    {
+      "key": "GetReportsHistory_Labels",
+      "value": "UtilidadesAPI/ReportsHistory/GetReportsHistory_Labels"
+    },
+    {
+      "key": "GetNotifications",
+      "value": "UtilidadesAPI/Notifications"
+    },
+    {
+      "key": "GetNotificationsByProfile",
+      "value": "UtilidadesAPI/Notifications/ByProfile"
+    },
+    {
+      "key": "CompaniesReportedSalesforce",
+      "value": "UtilidadesAPI/CompaniesReportedSalesforces"
+    },
+    {
+      "key": "AuditCompaniesAuthorized",
+      "value": "UtilidadesAPI/Audit/GetCompaniesAuthorized"
+    },
+    {
+      "key": "AuditCompaniesDeleted",
+      "value": "UtilidadesAPI/Audit/GetCompaniesDeleted"
+    },
+    {
+      "key": "UsersMovements",
+      "value": "UtilidadesAPI/UsersMovements"
+    },
+    {
+      "key": "HistoryChangesSinco",
+      "value": "UtilidadesAPI/HistoryChangesSinco/GetHistoryChangesSinco"
+    },
+    {
+      "key": "HistoryChangesSincoLast",
+      "value": "UtilidadesAPI/HistoryChangesSinco/GetHistoryChangesSincoLast"
+    }
+  ],
+  "POST": [
+    {
+      "key": "NewCompany",
+      "value": "UtilidadesAPI/Companies/NewCompany"
+    },
+    {
+      "key": "Transactions",
+      "value": "UtilidadesAPI/Transactions"
+    },
+    {
+      "key": "ReportsHistory",
+      "value": "UtilidadesAPI/ReportsHistory"
+    },
+    {
+      "key": "Notifications",
+      "value": "UtilidadesAPI/Notifications"
+    },
+    {
+      "key": "CompaniesReportedSalesforce",
+      "value": "UtilidadesAPI/CompaniesReportedSalesforces"
+    },
+    {
+      "key": "UsersMovements",
+      "value": "UtilidadesAPI/UsersMovements"
+    },
+    {
+      "key": "HistoryChangesSinco",
+      "value": "UtilidadesAPI/HistoryChangesSinco"
+    }
+  ],
+  "PUT": [
+    {
+      "key": "UpdateCompany",
+      "value": "UtilidadesAPI/Companies"
+    },
+    {
+      "key": "DataElements",
+      "value": "UtilidadesAPI/DataElements"
+    },
+    {
+      "key": "Transactions_Delete",
+      "value": "UtilidadesAPI/Transactions/Transactions_Delete?documentNumber="
+    },
+    {
+      "key": "Transactions_Delete",
+      "value": "UtilidadesAPI/ReportsHistory"
+    }
+  ],
+  "DELETE": [
+    {
+      "key": "Notifications",
+      "value": "UtilidadesAPI/Notifications"
+    }
+  ]
+}

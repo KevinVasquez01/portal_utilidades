@@ -1,0 +1,47 @@
+<!-- ============================================================== -->
+<!-- Fixed height Card Grid-->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100%">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Recuperando Documentos Seleccionados</mat-card-title>
+        <br>
+        <mat-grid-list cols="4" rowHeight="100px">
+          <!-- Recuperando -->
+          <mat-grid-tile colspan="{{await_text.seconds != '' ? '3' : '4'}}" rowspan="1">
+            <div fxFlex.gt-sm="90" fxFlex.gt-xs="100" fxFlex="100">
+              <h3 class="m-0"><mat-icon class="text-info">cloud_upload</mat-icon> Documento {{ recuperados.length }} de {{ dataEntrante.length }}</h3>
+              <h5 class="text-muted m-t-0 m-b-10">{{recuperado_actual}}</h5>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="(recuperados.length * 100) / dataEntrante.length"
+              ></mat-progress-bar>
+            </div>
+          </mat-grid-tile>
+          <!-- Espera -->
+          <mat-grid-tile *ngIf="await_text.seconds != ''" colspan="1" rowspan="1">
+            <div fxFlex.gt-sm="90" fxFlex.gt-xs="100" fxFlex="100">
+              <h3 class="m-0"><mat-icon class="text-purple">access_time</mat-icon> {{await_text.seconds}}</h3>
+              <h5 class="text-muted m-t-0 m-b-10">{{await_text.message}}</h5>
+              <!-- <mat-spinner color="primary" [diameter]="50"></mat-spinner> -->
+            </div>
+          </mat-grid-tile>
+          <!-- Validando resultados -->
+          <mat-grid-tile *ngIf="status_actual != ''" colspan="4" rowspan="1">
+            <div fxFlex.gt-sm="90" fxFlex.gt-xs="100" fxFlex="100">
+              <h3 class="m-0"><mat-icon class="text-danger">cloud_download</mat-icon> Documento {{ actually_index }} de {{ dataEntrante.length }}</h3>
+              <h5 class="text-muted m-t-0 m-b-10">{{status_actual}}</h5>
+              <mat-progress-bar
+                mode="determinate"
+                color="warn"
+                [value]="(actually_index * 100) / dataEntrante.length"
+              ></mat-progress-bar>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <br>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

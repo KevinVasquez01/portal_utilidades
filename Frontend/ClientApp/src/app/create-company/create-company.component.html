@@ -1,0 +1,77 @@
+<div *ngIf="!iscreated">
+    <mat-horizontal-stepper linear #stepper>
+        <!-- Informacion -->
+        <mat-step [stepControl]="companyInformation" [editable]="isEditable">
+            <form [formGroup]="companyInformation">
+                <ng-template matStepLabel>Información empresa</ng-template>
+                <app-company-information (datasaliente)="reseiveCompanyInformation(stepper)"></app-company-information>
+            </form>
+        </mat-step>
+        <!-- End Informacion -->
+        <!-- Datos contacto -->
+        <mat-step [stepControl]="companyContact" [editable]="isEditable">
+            <form [formGroup]="companyContact">
+                <ng-template matStepLabel>Información de Contacto</ng-template>
+                <app-company-contact (datasaliente)="reseiveCompanyContact($event, stepper)"></app-company-contact>
+            </form>
+        </mat-step>
+        <!-- End Datos contacto -->
+        <!-- Información Adicional -->
+        <mat-step [stepControl]="companyResponsabilities" [editable]="isEditable">
+            <form [formGroup]="companyResponsabilities">
+                <ng-template matStepLabel>Información Adicional</ng-template>
+                <app-company-other-info (datasaliente)="reseiveCompanyOther($event, stepper)"></app-company-other-info>
+            </form>
+        </mat-step>
+        <!-- End Información Adicional -->
+        <!-- Usuarios Autorizados -->
+        <mat-step [stepControl]="companyUser" [editable]="isEditable">
+            <form [formGroup]="companyUser">
+                <ng-template matStepLabel>Usuarios</ng-template>
+                <app-company-users (datasaliente)="reseiveCompanyUser($event, stepper)"></app-company-users>
+            </form>
+        </mat-step>
+        <!-- End Usuarios Autorizados -->
+        <!-- Crear compañía -->
+        <mat-step>
+            <ng-template matStepLabel>Finalizar</ng-template>
+            <mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+                <mat-card-title>La información será enviada a su consultor</mat-card-title>
+                <h3 class="margin-top-tittle">¿Desea Continuar?</h3>
+                <mat-card-actions align="end">
+                    <button mat-raised-button matStepperPrevious color="primary">
+            Anterior
+          </button>
+                    <button mat-raised-button (click)="SearchCompany()" color="accent">
+            Enviar Información
+          </button>
+                </mat-card-actions>
+            </mat-card-content>
+            <mat-card class="mat-elevation-z0 outline">
+                <mat-card-title></mat-card-title>
+            </mat-card>
+        </mat-step>
+        <!-- End Crear compañía -->
+    </mat-horizontal-stepper>
+</div>
+
+<div *ngIf="iscreated">
+    <mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+        <mat-card-title>Información recibida</mat-card-title>
+        <h3 class="margin-top-tittle">
+            <p>La información de la empresa fue enviada a su consultor.</p>
+            <p>Muchas gracias por su tiempo.</p>
+        </h3>
+        <mat-card-actions>
+            <button mat-raised-button (click)="Clear()" color="accent">
+        Crear otra empresa
+      </button>
+            <button mat-raised-button href="#" (click)="Exit()" color="primary">
+        Salir
+      </button>
+        </mat-card-actions>
+    </mat-card-content>
+    <mat-card class="mat-elevation-z0 outline">
+        <mat-card-title></mat-card-title>
+    </mat-card>
+</div>

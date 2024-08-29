@@ -1,0 +1,174 @@
+<div fxLayout="row wrap">
+  <!-- ============================================================== -->
+  <!-- Filtros Buscar-->
+  <!-- ============================================================== -->
+  <div
+    *ngIf="!showresults && error.length == 0"
+    fxFlex.gt-sm="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title
+          >Auditar empresas enviadas a Saphety para creación</mat-card-title
+        >
+        <mat-card-subtitle
+          >Por favor seleccione un rango de fechas a Auditar</mat-card-subtitle
+        >
+        <!-- ============================================================== -->
+        <!-- Parametros busqueda -->
+        <!-- ============================================================== -->
+        <form>
+          <div fxLayout="row wrap" class="align-items-center">
+            <!-- Rango Fechas -->
+            <div fxFlex.gt-sm="85" fxFlex="100" class="p-10">
+              <mat-form-field appearance="standard">
+                <mat-label>Rango de fechas</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="picker"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    placeholder="Fecha Inicial"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    placeholder="Fecha Final"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #picker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>
+                      Cancelar
+                    </button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matDateRangePickerApply
+                    >
+                      Aplicar
+                    </button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Fecha inicial incorrecta</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Fecha final incorrecta</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="
+                range.controls.start.value != null &&
+                !range.controls.start.hasError('matStartDateInvalid') &&
+                !range.controls.end.hasError('matEndDateInvalid')
+              "
+              fxFlex.gt-md="15"
+              class="text-right"
+            >
+              <button mat-raised-button (click)="generate()" color="accent">
+                Auditar
+              </button>
+            </div>
+          </div>
+        </form>
+        <mat-progress-bar
+          *ngIf="generando"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Detalle informe -->
+  <!-- ============================================================== -->
+  <div
+    *ngIf="showresults && error.length == 0"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title *ngIf="fechaInicioShow != fechaFinShow"
+              >Detalle Empresas Autorizadas y/o Eliminadas del
+              {{ fechaInicioShow }} al {{ fechaFinShow }}</mat-card-title
+            >
+            <mat-card-title *ngIf="fechaInicioShow == fechaFinShow"
+              >Detalle Empresas Autorizadas y/o Eliminadas del
+              {{ fechaInicioShow }}</mat-card-title
+            >
+          </div>
+          <div class="ml-auto d-flex align-items-center">
+            <button mat-raised-button color="primary" (click)="reset()">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Widgets -->
+  <!-- ============================================================== -->
+  <div
+    *ngIf="showresults && error.length == 0 && CompaniesExportTable.length > 0"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-audit-company-creations-widgets
+      [data]="widgetsData"
+    ></app-audit-company-creations-widgets>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Resultados -->
+  <!-- ============================================================== -->
+  <div
+    *ngIf="showresults && error.length == 0"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-audit-company-creations-table
+      [table]="CompaniesExportTable"
+      [nameExcel]="nameExcel"
+    ></app-audit-company-creations-table>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Error -->
+  <!-- ============================================================== -->
+  <div
+    *ngIf="error.length > 0"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Ocurrió un error al ejecutar informe</mat-card-title>
+        <blockquote>
+          <i>{{ error }}</i>
+        </blockquote>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

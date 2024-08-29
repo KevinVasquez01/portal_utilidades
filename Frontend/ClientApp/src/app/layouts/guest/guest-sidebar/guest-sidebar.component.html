@@ -1,0 +1,161 @@
+<!-- ============================================================== -->
+<!-- sidebar -->
+<!-- ============================================================== -->
+<mat-nav-list appAccordion>
+  <mat-list-item
+    appAccordionLink
+    *ngFor="let menuitem of menuItems.getMenuitem()"
+    routerLinkActive="selected"
+    group="{{ menuitem.state }}"
+    (click)="scrollToTop()"
+  >
+    <a
+      class=""
+      appAccordionToggle
+      [routerLink]="['/', menuitem.state]"
+      *ngIf="menuitem.type === 'link' && validateProfile(menuitem.profile, menuitem.ambient)"
+      (click)="handleNotify()"
+    >
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span>
+      <span
+        class="label label-{{ badge.type }}"
+        *ngFor="let badge of menuitem.badge"
+        >{{ badge.value }}</span
+      >
+    </a>
+
+    <a
+      class=""
+      appAccordionToggle
+      href="{{ menuitem.state }}"
+      *ngIf="menuitem.type === 'extLink' && validateProfile(menuitem.profile, menuitem.ambient)"
+    >
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span>
+      <span
+        class="label label-{{ badge.type }}"
+        *ngFor="let badge of menuitem.badge"
+        >{{ badge.value }}</span
+      >
+    </a>
+
+    <a
+      class=""
+      appAccordionToggle
+      href="{{ menuitem.state }}"
+      target="_blank"
+      *ngIf="menuitem.type === 'extTabLink' && validateProfile(menuitem.profile, menuitem.ambient)"
+    >
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span>
+      <span
+        class="label label-{{ badge.type }}"
+        *ngFor="let badge of menuitem.badge"
+        >{{ badge.value }}</span
+      >
+    </a>
+
+    <a
+      class=""
+      appAccordionToggle
+      href="javascript:;"
+      *ngIf="menuitem.type === 'sub' && validateProfile(menuitem.profile, menuitem.ambient)"
+    >
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span>
+      <span
+        class="label label-{{ badge.type }}"
+        *ngFor="let badge of menuitem.badge"
+        >{{ badge.value }}</span
+      >
+      <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
+    </a>
+
+    <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub' && validateProfile(menuitem.profile, menuitem.ambient)">
+      <mat-list-item
+        *ngFor="
+          let childitem of menuitem.children;
+          let j = index;
+          let i = childitem
+        "
+        routerLinkActive="selected"
+      >
+        <a
+          [routerLink]="['/', menuitem.state, childitem.state]"
+          *ngIf="childitem.type === 'link' && validateProfile(childitem.profile, childitem.ambient)"
+          class="relative"
+          routerLinkActive="selected"
+          (click)="itemSelect[i] = j"
+          (click)="handleNotify()"
+          >{{ childitem.name }}</a
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        *ngFor="
+          let childitem of menuitem.children;
+          let j = index;
+          let i = childitem
+        "
+      >
+        <a
+          class=""
+          href="javascript: void(0);"
+          *ngIf="childitem.type === 'subchild' && validateProfile(childitem.profile, childitem.ambient)"
+          (click)="addExpandClass(childitem.name)"
+          [ngClass]="{ selected: showMenu === childitem.name }"
+        >
+          <span>{{ childitem.name }}</span>
+          <span fxFlex></span>
+          <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
+        </a>
+
+        <mat-nav-list
+          class="child-sub-item"
+          *ngIf="childitem.type === 'subchild' && validateProfile(childitem.profile, childitem.ambient)"
+        >
+          <mat-list-item
+            *ngFor="let child of childitem.subchildren"
+            routerLinkActive="selected"
+          >
+            <a
+              [routerLink]="['/', menuitem.state, childitem.state, child.state]"
+              *ngIf="validateProfile(child.profile, child.ambient)"
+              routerLinkActive="selected"
+              >{{ child.name }}</a
+            >
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-list-item>
+    </mat-nav-list>
+
+    <div class="saperator text-muted" *ngIf="menuitem.type === 'saperator' && validateProfile(menuitem.profile, menuitem.ambient)">
+      <span>{{ menuitem.name }}</span>
+    </div>
+  </mat-list-item>
+</mat-nav-list>
+
+<div class="user-profile">
+  <!-- User profile text-->
+  <!-- ============================================================== -->
+  <!-- Profile - style you can find in header.scss -->
+  <!-- ============================================================== -->
+  <div class="profile-text">
+    <a [matMenuTriggerFor]="sdprofile" class="d-flex align-items-center">
+      {{usuario_name}}
+      <i class="ti-angle-down font-10 ml-auto"></i></a>
+  </div>
+  <mat-menu #sdprofile="matMenu" class="mymegamenu">
+    <button *ngIf="!logged" mat-menu-item [routerLink]="['/authentication/login']">
+      <mat-icon>login</mat-icon> Iniciar sesión
+    </button>
+          <button *ngIf="logged" mat-menu-item [routerLink]="['/authentication/logout']">
+      <mat-icon>exit_to_app</mat-icon> Cerrar sesión
+    </button>
+  </mat-menu>
+</div>

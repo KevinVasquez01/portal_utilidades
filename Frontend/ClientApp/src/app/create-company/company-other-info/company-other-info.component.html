@@ -1,0 +1,201 @@
+<mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+  <mat-card-title>Responsabilidades Fiscales</mat-card-title>
+  <mat-card-subtitle
+    >Por favor seleccione las responsabilidades fiscales</mat-card-subtitle
+  >
+  <!-- Linea 1. -->
+  <div class="form-group pad-adjust">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <mat-chip-list #chipList multiple="true">
+          <mat-chip
+            *ngFor="let res of responsabilitytypes"
+            [value]="res.Code"
+            [selected]="res.selected"
+            (click)="res.selected = !res.selected; onSelectedChips()"
+            matTooltip="{{res.selected ? 'Haga click para desactivar Responsabilidad' : 'Haga click para seleccionar Responsabilidad'}}" matTooltipPosition="above"
+          >
+            <mat-icon *ngIf="res.selected">check</mat-icon>
+            {{ res.Name }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+  <mat-error *ngIf="!respSelection">Por favor seleccione una o más Responsabilidades Fiscales.</mat-error>
+  <mat-card-actions *ngIf="companytoEdit.dataCreations.length != 0 ? !companytoEdit.dataCreations[0].salesinvoice_included : false" align="end">
+    <button *ngIf="!editing" mat-raised-button (click)="onSubmit(false)" color="primary">
+      Anterior
+    </button>
+    <button mat-raised-button (click)="onSubmit(true)" color="accent">
+      {{editing ? 'Actualizar información' : 'Siguiente'}}
+    </button>
+  </mat-card-actions>
+</mat-card-content>
+
+<mat-card-content
+  *ngIf="companytoEdit.dataCreations.length != 0 ? companytoEdit.dataCreations[0].salesinvoice_included : false"
+  class="margin-top-tittle mat-elevation-z0 outline"
+>
+  <mat-card-title>Serie de habilitación DIAN</mat-card-title>
+  <mat-card-subtitle
+    >Por favor ingrese la serie de habilitación DIAN</mat-card-subtitle
+  >
+  <form [formGroup]="FormGroup">
+    <!-- Check. -->
+    <div class="form-group pad-adjust">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <mat-checkbox color="primary" (change)="isDisabled($event)"
+            >No conozco esta información</mat-checkbox
+          >
+        </div>
+      </div>
+    </div>
+    <div formGroupName="series">
+      <!-- If el usuario conoce info. -->
+      <div *ngIf="disabled; else enabled"></div>
+      <ng-template #enabled>
+        <!-- Linea 1. -->
+        <div class="form-group pad-adjust">
+          <div class="row">
+            <!-- Nombre. -->
+            <div class="form-group col-md-5">
+              <mat-form-field class="input-width">
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  value="Series"
+                  formControlName="name"
+                />
+              </mat-form-field>
+            </div>
+
+            <!-- Prefijo. -->
+            <div class="form-group col-md-3">
+              <mat-form-field class="input-width">
+                <mat-label>Prefijo</mat-label>
+                <input type="text" matInput required formControlName="prefix" />
+              </mat-form-field>
+            </div>
+
+            <!-- Valido desde. -->
+            <div class="form-group col-md-2">
+              <mat-form-field color="accent" class="input-width">
+                <mat-label>Válido desde</mat-label>
+                <input
+                  required
+                  matInput
+                  [matDatepicker]="picker1"
+                  formControlName="validfrom"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1 color="primary"></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <!-- Valido hasta. -->
+            <div class="form-group col-md-2">
+              <mat-form-field color="accent" class="input-width">
+                <mat-label>Válido hasta</mat-label>
+                <input
+                  required
+                  matInput
+                  [matDatepicker]="picker2"
+                  formControlName="validto"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Linea 2. -->
+        <div class="form-group pad-adjust">
+          <div class="row">
+            <!-- TestSetId. -->
+            <div class="form-group col-md-3">
+              <mat-form-field class="input-width">
+                <mat-label>TestSetId</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="testsetid"
+                />
+              </mat-form-field>
+            </div>
+
+            <!-- Número autorización DIAN. -->
+            <div class="form-group col-md-3">
+              <mat-form-field class="input-width">
+                <mat-label>Número autorización DIAN</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="authorizationnumber"
+                />
+              </mat-form-field>
+            </div>
+
+            <!-- Valor inicial. -->
+            <div class="form-group col-md-2">
+              <mat-form-field class="input-width">
+                <mat-label>Valor inicial</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="startvalue"
+                />
+              </mat-form-field>
+            </div>
+
+            <!-- Valor Final. -->
+            <div class="form-group col-md-2">
+              <mat-form-field class="input-width">
+                <mat-label>Valor Final</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="endvalue"
+                />
+              </mat-form-field>
+            </div>
+
+             <!-- Valor Efectivo. -->
+             <div class="form-group col-md-2">
+              <mat-form-field class="input-width">
+                <mat-label>Valor Efectivo</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="efectivevalue"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </form>
+  <mat-card-actions align="end">
+    <button *ngIf="!editing" mat-raised-button (click)="onSubmit(false)" color="primary">
+      Anterior
+    </button>
+    <button mat-raised-button (click)="onSubmit(true)" color="accent">
+      {{editing ? 'Actualizar información' : 'Siguiente'}}
+    </button>
+  </mat-card-actions>
+</mat-card-content>

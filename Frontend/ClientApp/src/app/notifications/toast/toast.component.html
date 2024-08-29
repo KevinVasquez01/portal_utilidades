@@ -1,0 +1,50 @@
+<div class="toast_container_1">
+  <div
+    class="toast_1"
+    *ngFor="let message of messages | async; let i = index"
+    [ngClass]="{
+      'toast-blue_1': message.style == 'info',
+      'toast-yellow_1': message.style == 'warning',
+      'toast-red_1': message.style == 'error',
+      'toast-green_1': message.style == 'success'
+    }"
+  >
+    <!--    <div
+      class="toast_icon_1"
+      [innerHtml]="_SVGProvider.getIcon(message.style) | sanitizeHtml"
+    ></div> -->
+
+    <div class="toast_icon_2">
+      <mat-icon
+        [ngClass]="{
+          'toast-blue': message.style == 'info',
+          'toast-yellow': message.style == 'warning',
+          'toast-red': message.style == 'error',
+          'toast-green': message.style == 'success'
+        }"
+        >{{ icon(message.style) }}</mat-icon
+      >
+    </div>
+
+    <div class="toast_content_1">
+      <p class="toast_message_1">{{ message.content }}</p>
+    </div>
+
+    <div
+      class="toast_close_1"
+      [innerHtml]="_SVGProvider.close | sanitizeHtml"
+      (click)="dismiss(message.timestamp)"
+    ></div>
+
+    <div
+      class="toaster_progress_1"
+      [ngStyle]="{ width: (message.counter / message.delay) * 100 + '%' }"
+      [ngClass]="{
+        'toast-blue_1': message.style == 'info',
+        'toast-yellow_1': message.style == 'warning',
+        'toast-red_1': message.style == 'error',
+        'toast-green_1': message.style == 'success'
+      }"
+    ></div>
+  </div>
+</div>

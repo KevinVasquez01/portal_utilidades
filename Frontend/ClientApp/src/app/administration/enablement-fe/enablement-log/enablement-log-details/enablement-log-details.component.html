@@ -1,0 +1,60 @@
+<mat-card>
+  <mat-card-content>
+    <ul *ngFor="let item of to_show_list" class="timeline">
+      <!--  -->
+      <li class="{{item.timeline_inverted ? 'timeline-inverted' : ''}}">
+        <div class="timeline-badge {{item.class}}">
+          <i class="{{item.icon}}"></i>
+        </div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <span class="timeline-title" matBadge="{{ item.documents > 0 ? item.documents : '' }}" matBadgeOverlap="false">{{item.title}}</span>
+          </div>
+          <div class="timeline-body">
+            <!-- Tabla -->
+            <div *ngIf="item.documents > 0" class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let event of item.documents_list"
+                  >
+                    <td
+                      class="{{ event.isvalid ? 'color-ok' : 'color-alert' }}"
+                    >
+                      <p>{{ prefix }}{{ event.documentNumber }}</p>
+                    </td>
+                    <td class="{{ event.isvalid ? 'color-ok' : 'color-alert' }}">
+                      <p>{{ event.statusDescription }}</p>
+                      <p>{{ event.statusMessage }}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Resultado -->
+            <div *ngIf="item.documents == 0">
+              <div *ngIf="detalle.enablement_result" class="p-20">
+                <img mat-card-image class="img-responsive rounded" src="assets/images/enablement/success.jpg" alt="Image of {{ item.documents_list[0]?.documentNumber }}" />
+                <div class="p-10">
+                  <p>{{item.documents_list[0]?.statusDescription}}</p>
+                  <p>{{item.documents_list[0]?.statusMessage}}</p>
+                </div>
+              </div>
+              <div *ngIf="!detalle.enablement_result" class="p-10">
+                <p>{{item.documents_list[0]?.statusDescription}}</p>
+                <p>{{item.documents_list[0]?.statusMessage}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <!-- Resultado -->
+    </ul>
+  </mat-card-content>
+</mat-card>

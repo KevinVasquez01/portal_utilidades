@@ -1,0 +1,84 @@
+<form [formGroup]="FormGroup" (ngSubmit)="onSubmit()">
+    <mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+        <mat-card-title>Información de contacto</mat-card-title>
+        <mat-card-subtitle>Por favor ingrese la información de contacto
+        </mat-card-subtitle>
+        <!-- Linea 1. -->
+        <div class="form-group pad-adjust">
+            <div class="row">
+                <!-- Dirección. -->
+                <div class="form-group col-md-6">
+                    <mat-form-field class="input-width">
+                        <mat-label>Dirección</mat-label>
+                        <input type="text" matInput formControlName="addressLine" required />
+                    </mat-form-field>
+                </div>
+
+                <!-- Departamento. -->
+                <div class="form-group col-md-3">
+                    <mat-form-field class="input-width">
+                        <mat-label>Departamento</mat-label>
+                        <mat-select formControlName="departmentCode" (selectionChange)="changedepartmentselect($event)" required>
+                            <input class="input-width" placeholder="Buscar..." (keyup)="onKey_dcodes($event)" />
+                            <mat-option *ngFor="let dato of selected_departmentCode" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- Ciudad. -->
+                <div class="form-group col-md-3">
+                    <mat-form-field class="input-width">
+                        <mat-label>Ciudad</mat-label>
+                        <mat-select formControlName="cityCode" (selectionChange)="changecityselect($event)" required>
+                            <input class="input-width" placeholder="Buscar..." (keyup)="onKey_ccodes($event)" />
+                            <mat-option *ngFor="let dato of selected_cityCode" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linea 2. -->
+        <div class="form-group pad-adjust">
+            <div class="row">
+                <!-- Código Postal. -->
+                <div class="form-group col-md-2">
+                    <mat-form-field class="input-width">
+                        <mat-label>Código Postal</mat-label>
+                        <mat-select formControlName="postalCode" required>
+                            <input class="input-width" placeholder="Buscar..." (keyup)="onKey_pcodes($event)" />
+                            <mat-option *ngFor="let dato of selected_postalCode" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- Email. -->
+                <div class="form-group col-md-5">
+                    <mat-form-field class="input-width">
+                        <mat-label>Correo electrónico</mat-label>
+                        <input type="email" matInput formControlName="email1" required />
+                        <mat-hint>
+                            <mat-icon class="orange-icon">info</mat-icon> El correo electrónico debe coincidir con el registrado en la plataforma DIAN.</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <!-- Email Financiero. -->
+                <div class="form-group col-md-5">
+                    <mat-form-field class="input-width">
+                        <mat-label>Correo electrónico de recepción</mat-label>
+                        <input type="email" matInput formControlName="financialSupportEmail" required />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <mat-card-actions align="end">
+            <button *ngIf="!editing" mat-raised-button color="primary" (click)="finalize(false)">
+        Anterior
+      </button>
+            <button mat-raised-button color="accent" (click)="finalize(true)">
+        {{editing ? 'Actualizar información' : 'Siguiente'}}
+      </button>
+        </mat-card-actions>
+    </mat-card-content>
+</form>

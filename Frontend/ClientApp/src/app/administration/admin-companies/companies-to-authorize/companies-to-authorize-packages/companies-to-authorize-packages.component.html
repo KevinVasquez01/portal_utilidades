@@ -1,0 +1,348 @@
+<h2 mat-dialog-title>Seleccionar Planes y/o paquetes</h2>
+<mat-dialog-content>
+    <mat-tab-group color="accent">
+        <!-- Tab 1 -->
+        <mat-tab *ngIf="selectedPackages.FE.length > 0" label="Seleccionados Facturación Electrónica">
+            <mat-card>
+                <mat-card-content>
+                    <mat-list *ngFor="let row of selectedPackages.FE">
+                        <mat-list-item>
+                            <div class="m-r-20">
+                                <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                <!-- Recepción. -->
+                                <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                <!-- Envío. -->
+                                <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                            </div>
+
+                            <h4 class="m-0 font-10"> {{row.Name}}
+                                <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                            </h4>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <!-- End Tab 1 -->
+         <!-- Tab 2 -->
+         <mat-tab *ngIf="selectedPackages.DS.length > 0" label="Seleccionados Documento Soporte">
+          <mat-card>
+              <mat-card-content>
+                  <mat-list *ngFor="let row of selectedPackages.DS">
+                      <mat-list-item>
+                          <div class="m-r-20">
+                              <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                              <!-- Recepción. -->
+                              <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                              <!-- Envío. -->
+                              <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                          </div>
+
+                          <h4 class="m-0 font-10"> {{row.Name}}
+                              <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                          </h4>
+                      </mat-list-item>
+                  </mat-list>
+              </mat-card-content>
+          </mat-card>
+      </mat-tab>
+      <!-- End Tab 2 -->
+        <!-- Tab 3 -->
+        <mat-tab *ngIf="selectedPackages.NE.length > 0" label="Seleccionados Nómina Electrónica">
+            <mat-card>
+                <mat-card-content>
+                    <mat-list *ngFor="let row of selectedPackages.NE">
+                        <mat-list-item>
+                            <div class="m-r-20">
+                                <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                <!-- Recepción. -->
+                                <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                <!-- Envío. -->
+                                <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                            </div>
+
+                            <h4 class="m-0 font-10"> {{row.Name}}
+                                <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                            </h4>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+         <!-- End Tab 3 -->
+         <!-- Tab 4 -->
+         <mat-tab *ngIf="selectedPackages.DE.length > 0" label="Seleccionados Documento Equivalente">
+            <mat-card>
+                <mat-card-content>
+                    <mat-list *ngFor="let row of selectedPackages.DE">
+                        <mat-list-item>
+                            <div class="m-r-20">
+                                <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                <!-- Recepción. -->
+                                <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                <!-- Envío. -->
+                                <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                            </div>
+  
+                            <h4 class="m-0 font-10"> {{row.Name}}
+                                <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                            </h4>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <!-- End Tab 4 -->
+    </mat-tab-group>
+
+    <mat-tab-group>
+        <!-- Tab 1 -->
+        <mat-tab *ngIf="data.FE.length > 0" label="Facturación Electrónica">
+            <mat-card>
+                <mat-card-content>
+                    <div class="d-flex flex-wrap">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Buscar paquete FE</mat-label>
+                            <input matInput (keyup)="applyFilterFE($event)" #input />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <table mat-table [dataSource]="dataSourceFE" matSort class="align-middle mb-0 table table-borderless table-hover">
+                            <!-- Type -->
+                            <ng-container matColumnDef="Type">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="50" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                    </div>
+                                    <!-- Recepción. -->
+                                    <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                    <!-- Envío. -->
+                                    <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                </td>
+                            </ng-container>
+
+                            <!-- Name -->
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan o Paquete</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <h4 class="m-0">{{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                    <p class="text-muted">{{row.Description}}</p>
+                                </td>
+                            </ng-container>
+
+                            <!-- Acciones -->
+                            <ng-container cdkColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-raised-button color="primary" class="font-10" (click)="confirmItemFE(element)">Adicionar</button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsFE"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsFE"></tr>
+
+                            <!-- Filter result. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="3">
+                                    No hay planes o paquetes de Documentos, que conincidan con el filtro: "{{ input.value }}"
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <!-- End Tab 1 -->
+         <!-- Tab 2 -->
+         <mat-tab *ngIf="data.DS.length > 0" label="Documento Soporte">
+          <mat-card>
+              <mat-card-content>
+                  <div class="d-flex flex-wrap">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Buscar paquete DS</mat-label>
+                          <input matInput (keyup)="applyFilterDS($event)" #input />
+                      </mat-form-field>
+                  </div>
+
+                  <div>
+                      <table mat-table [dataSource]="dataSourceDS" matSort class="align-middle mb-0 table table-borderless table-hover">
+                          <!-- Type -->
+                          <ng-container matColumnDef="Type">
+                              <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                              <td mat-cell *matCellDef="let row">
+                                  <div class="m-r-20">
+                                      <img class="img-circle" width="50" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                  </div>
+                                  <!-- Recepción. -->
+                                  <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                  <!-- Envío. -->
+                                  <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                              </td>
+                          </ng-container>
+
+                          <!-- Name -->
+                          <ng-container matColumnDef="Name">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan o Paquete</th>
+                              <td mat-cell *matCellDef="let row">
+                                  <h4 class="m-0">{{row.Name}}
+                                      <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                  </h4>
+                                  <p class="text-muted">{{row.Description}}</p>
+                              </td>
+                          </ng-container>
+
+                          <!-- Acciones -->
+                          <ng-container cdkColumnDef="actions">
+                              <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                              <td mat-cell *matCellDef="let element">
+                                  <button mat-raised-button color="primary" class="font-10" (click)="confirmItemDS(element)">Adicionar</button>
+                              </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsDS"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumnsDS"></tr>
+
+                          <!-- Filter result. -->
+                          <tr class="mat-row" *matNoDataRow>
+                              <td class="mat-cell" colspan="3">
+                                  No hay planes o paquetes de Documentos, que conincidan con el filtro: "{{ input.value }}"
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </mat-card-content>
+          </mat-card>
+      </mat-tab>
+      <!-- End Tab 2 -->
+        <!-- Tab 3-->
+        <mat-tab *ngIf="data.NE.length > 0" label="Nómina Electrónica">
+            <mat-card>
+                <mat-card-content>
+                    <div class="d-flex flex-wrap">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Buscar paquete NE</mat-label>
+                            <input matInput (keyup)="applyFilterNE($event)" #input />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <table mat-table [dataSource]="dataSourceNE" matSort class="align-middle mb-0 table table-borderless table-hover">
+                            <!-- Type -->
+                            <ng-container matColumnDef="Type">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="50" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                    </div>
+                                    <!-- Recepción. -->
+                                    <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                    <!-- Envío. -->
+                                    <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                </td>
+                            </ng-container>
+
+                            <!-- Name -->
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan o Paquete</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <h4 class="m-0">{{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                    <p class="text-muted">{{row.Description}}</p>
+                                </td>
+                            </ng-container>
+
+                            <!-- Acciones -->
+                            <ng-container cdkColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-raised-button color="primary" class="font-10" (click)="confirmItemNE(element)">Adicionar</button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsNE"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsNE"></tr>
+
+                            <!-- Filter result. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="5">
+                                    No hay planes o paquetes de Nómina, que conincidan con el filtro: "{{ input.value }}"
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <!-- End Tab 3 -->
+        <!-- Tab 4 -->
+        <mat-tab *ngIf="data.DE.length > 0" label="Documento Equivalente">
+            <mat-card>
+                <mat-card-content>
+                    <div class="d-flex flex-wrap">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Buscar paquete DE</mat-label>
+                            <input matInput (keyup)="applyFilterDS($event)" #input />
+                        </mat-form-field>
+                    </div>
+  
+                    <div>
+                        <table mat-table [dataSource]="dataSourceDE" matSort class="align-middle mb-0 table table-borderless table-hover">
+                            <!-- Type -->
+                            <ng-container matColumnDef="Type">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="50" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                    </div>
+                                    <!-- Recepción. -->
+                                    <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                    <!-- Envío. -->
+                                    <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                </td>
+                            </ng-container>
+  
+                            <!-- Name -->
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan o Paquete</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <h4 class="m-0">{{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                    <p class="text-muted">{{row.Description}}</p>
+                                </td>
+                            </ng-container>
+  
+                            <!-- Acciones -->
+                            <ng-container cdkColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-raised-button color="primary" class="font-10" (click)="confirmItemDE(element)">Adicionar</button>
+                                </td>
+                            </ng-container>
+  
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsDE"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsDE"></tr>
+  
+                            <!-- Filter result. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="3">
+                                    No hay planes o paquetes de Documentos, que conincidan con el filtro: "{{ input.value }}"
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <!-- End Tab 4 -->
+    </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button color="accent" [mat-dialog-close]="selectedPackages" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

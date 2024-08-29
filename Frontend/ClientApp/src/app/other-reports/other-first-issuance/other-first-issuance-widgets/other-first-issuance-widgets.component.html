@@ -1,0 +1,138 @@
+<div fxLayout="row wrap">
+  <!-- Empresas emisoras FE -->
+  <div *ngIf="top.EmisionFE.count > 0" [fxFlex.gt-sm]="fxFlexWidgets()" [fxFlex.gt-xs]="fxFlexWidgets()" fxFlex="100">
+    <mat-card>
+      <!-- Row -->
+      <div class="social-widget">
+        <div class="soc-header box-emisionFE">
+          <h3 class="font-medium m-0">{{top.EmisionFE.ov}}</h3>
+          <h6 class="font-medium m-0">Facturación Electrónica</h6>
+          <i class="fa-duotone fa-file-invoice"></i>
+        </div>
+        <div fxLayout="row" fxLayoutWrap="wrap" class="text-center">
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20 b-r">
+            <h3 class="font-medium m-0">{{top.EmisionFE.total}}</h3>
+            <span class="text-muted">Total Empresas</span>
+          </div>
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20">
+            <h3 class="font-medium m-0">{{top.EmisionFE.count}}</h3>
+            <span class="text-muted">Empresas Emisoras FE</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!-- Empresas emisoras FE -->
+  <!-- Empresas emisoras DS -->
+  <div *ngIf="top.EmisionDS.count > 0" [fxFlex.gt-sm]="fxFlexWidgets()" [fxFlex.gt-xs]="fxFlexWidgets()" fxFlex="100">
+    <mat-card>
+      <!-- Row -->
+      <div class="social-widget">
+        <div class="soc-header box-emisionDS">
+          <h3 class="font-medium m-0">{{top.EmisionDS.ov}}</h3>
+          <h6 class="font-medium m-0">Documento Soporte</h6>
+          <i class="fa-duotone fa-file-invoice"></i>
+        </div>
+        <div fxLayout="row" fxLayoutWrap="wrap" class="text-center">
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20 b-r">
+            <h3 class="font-medium m-0">{{top.EmisionDS.total}}</h3>
+            <span class="text-muted">Total Empresas</span>
+          </div>
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20">
+            <h3 class="font-medium m-0">{{top.EmisionDS.count}}</h3>
+            <span class="text-muted">Empresas Emisoras DS</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!-- Empresas emisoras DS -->
+  <!-- Empresas emisoras NE -->
+  <div *ngIf="top.EmisionNE.count > 0" [fxFlex.gt-sm]="fxFlexWidgets()" [fxFlex.gt-xs]="fxFlexWidgets()" fxFlex="100">
+    <mat-card>
+      <!-- Row -->
+      <div class="social-widget">
+        <div class="soc-header box-emisionNE">
+          <h3 class="font-medium m-0">{{top.EmisionNE.ov}}</h3>
+          <h6 class="font-medium m-0">Nómina Electrónica</h6>
+          <i class="fa-duotone fa-file-invoice"></i>
+        </div>
+        <div fxLayout="row" fxLayoutWrap="wrap" class="text-center">
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20 b-r">
+            <h3 class="font-medium m-0">{{top.EmisionNE.total}}</h3>
+            <span class="text-muted">Total Empresas</span>
+          </div>
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20">
+            <h3 class="font-medium m-0">{{top.EmisionNE.count}}</h3>
+            <span class="text-muted">Empresas Emisoras NE</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!-- Empresas emisoras NE -->
+  <!-- Empresas receptoras FE -->
+  <div *ngIf="top.RecepcionFE.count > 0" [fxFlex.gt-sm]="fxFlexWidgets()" [fxFlex.gt-xs]="fxFlexWidgets()" fxFlex="100">
+    <mat-card>
+      <!-- Row -->
+      <div class="social-widget">
+        <div class="soc-header box-recepcionFE">
+          <h3 class="font-medium m-0">{{top.RecepcionFE.ov}}</h3>
+          <h6 class="font-medium m-0">Recepción</h6>
+          <i class="fa-duotone fa-file-invoice"></i>
+        </div>
+        <div fxLayout="row" fxLayoutWrap="wrap" class="text-center">
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20 b-r">
+            <h3 class="font-medium m-0">{{top.RecepcionFE.total}}</h3>
+            <span class="text-muted">Total Empresas</span>
+          </div>
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" class="p-20">
+            <h3 class="font-medium m-0">{{top.RecepcionFE.count}}</h3>
+            <span class="text-muted">Empresas Receptoras</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!-- Empresas receptoras FE -->
+  <!-- Valores por OV -->
+  <div
+    *ngIf="dataEntrante.length > 1"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <div id="wrap">
+        <div id="chart-ovs">
+          <apx-chart
+            [series]="chartOvs.series"
+            [chart]="chartOvs.chart"
+            [dataLabels]="chartOvs.dataLabels"
+            [plotOptions]="chartOvs.plotOptions"
+            [yaxis]="chartOvs.yaxis"
+            [xaxis]="chartOvs.xaxis"
+            [subtitle]="chartOvs.subtitle"
+            [colors]="chartOvs.colors"
+            [states]="chartOvs.states"
+            [title]="chartOvs.title"
+            [tooltip]="chartOvs.tooltip"
+          ></apx-chart>
+        </div>
+        <div id="chart-services">
+          <apx-chart
+            [series]="chartServicesOvs.series"
+            [chart]="chartServicesOvs.chart"
+            [legend]="chartServicesOvs.legend"
+            [plotOptions]="chartServicesOvs.plotOptions"
+            [yaxis]="chartServicesOvs.yaxis"
+            [xaxis]="chartServicesOvs.xaxis"
+            [grid]="chartServicesOvs.grid"
+            [title]="chartServicesOvs.title"
+          ></apx-chart>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!--  Valores por OV -->
+</div>

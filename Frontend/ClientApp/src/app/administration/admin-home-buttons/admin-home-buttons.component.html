@@ -1,0 +1,46 @@
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex no-block align-items-center b-b m-b-30 p-b-15">
+      <h4 class="font-medium m-b-0 m-t-0">Administrar Botones Página de Inicio</h4>
+      <div class="ml-auto">
+        <button mat-raised-button (click)="openDialog('Add', {})" color="primary">
+          Crear Botón
+        </button>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap">
+      <!-- Otros -->
+      <div *ngFor="let item of todos" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+
+          <mat-card class="oh">
+            <mat-card-content>
+              <a [routerLink]="['/administration/admin-home-buttons']" (click)="goToLink(item.url)">
+              <!-- column -->
+              <div class="d-flex no-block">
+                <div class="stats text-truncate">
+                  <h3 class="m-0 font-light">{{ item.tittle }}</h3>
+                  <h6 class="font-14 m-t-0 text-muted font-light">
+                    {{ item.text }}
+                  </h6>
+                </div>
+                <div class="stats-icon text-right ml-auto">
+                  <i class="fa {{ item.faIcon }} display-5 op-3 text-primary"></i>
+                </div>
+              </div>
+              </a>
+              <div>
+                <a mat-icon-button>
+                  <mat-icon (click)="openDialog('Edit', item)">remove_red_eye</mat-icon>
+                </a>
+                <button mat-icon-button color="warn" (click)="deleteTask(item)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

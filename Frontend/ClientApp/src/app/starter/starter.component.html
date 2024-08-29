@@ -1,0 +1,73 @@
+<div fxLayout="row wrap">
+  <!-- Titulo -->
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <h2>Bienvenido al Portal de Utilidades Sovos - Saphety</h2>
+        <h4>¿Qué desea hacer?</h4>
+
+        <div fxLayout="row wrap">
+          <!-- Crear Empresa -->
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+            <a [routerLink]="['/create-company']">
+              <mat-card class="oh bg-info">
+                <mat-card-content>
+                  <!-- column -->
+                  <div class="d-flex no-block">
+                    <div class="stats text-truncate">
+                      <h3 class="text-white m-0">Crear Empresa</h3>
+                      <h6 class="font-14 text-white m-t-0 font-light">
+                        Diligenciar Formulario para creación de Empresa.
+                      </h6>
+                    </div>
+                    <div class="text-right ml-auto">
+                      <i
+                        class="fa fa-pencil-square display-5 op-3 text-white"
+                      ></i>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </a>
+          </div>
+          <!-- Blank -->
+          <div fxFlex.gt-sm="50" fxFlex.gt-xs="0" fxFlex="0"></div>
+        </div>
+
+        <br />
+        <h5 *ngIf="homeDataElements.length > 0">Otras Acciones</h5>
+
+        <div fxLayout="row wrap">
+          <!-- Otros -->
+          <div
+            *ngFor="let item of homeDataElements"
+            fxFlex.gt-sm="50"
+            fxFlex.gt-xs="100"
+            fxFlex="100"
+          >
+            <a [routerLink]="['/']" (click)="goToLink(item.url)">
+              <mat-card class="oh">
+                <mat-card-content>
+                  <!-- column -->
+                  <div class="d-flex no-block">
+                    <div class="stats text-truncate">
+                      <h3 class="m-0 font-light">{{ item.tittle }}</h3>
+                      <h6 class="font-14 m-t-0 text-muted font-light">
+                        {{ item.text }}
+                      </h6>
+                    </div>
+                    <div class="stats-icon text-right ml-auto">
+                      <i
+                        class="fa {{ item.faIcon }} display-5 op-3 text-primary"
+                      ></i>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </a>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

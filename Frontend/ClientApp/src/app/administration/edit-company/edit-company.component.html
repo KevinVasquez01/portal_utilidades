@@ -1,0 +1,47 @@
+<mat-card>
+    <mat-card-content>
+        <div class="d-flex flex-wrap">
+            <div>
+                <mat-card-title>Editando Compañía: {{cname_toShow}}</mat-card-title>
+                <mat-card-subtitle>{{cnit_toShow}}</mat-card-subtitle>
+            </div>
+            <div class="ml-auto">
+                <ul class="list-inline">
+                    <li>
+                        <h6 class="text-success m-0">
+                            <button mat-button color="warn" (click)="cancelEdition()">Cancelar</button>
+                        </h6>
+                    </li>
+                    <li *ngIf="update">
+                        <h6 class="text-success m-0">
+                            <button mat-button color="accent" (click)="sendEdition()">Guardar cambios</button>
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <mat-tab-group>
+            <!-- Informacion -->
+            <mat-tab label="Información Empresa">
+                <app-company-information (datasaliente)="update = $event"></app-company-information>
+            </mat-tab>
+            <!-- End Informacion -->
+            <!-- Datos contacto -->
+            <mat-tab label="Datos de Contacto">
+                <app-company-contact (datasaliente)="update = $event"></app-company-contact>
+            </mat-tab>
+            <!-- End Datos contacto -->
+            <!-- Información Adicional -->
+            <mat-tab label="Información Adicional">
+                <app-company-other-info (datasaliente)="update = $event"></app-company-other-info>
+            </mat-tab>
+            <!-- End Información Adicional -->
+            <!-- Usuarios -->
+            <mat-tab label="Usuario Autorizado">
+                <app-company-users (datasaliente)="update = $event"></app-company-users>
+            </mat-tab>
+            <!-- End Usuarios -->
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

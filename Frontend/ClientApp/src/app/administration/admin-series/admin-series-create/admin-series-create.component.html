@@ -1,0 +1,277 @@
+<mat-card>
+  <mat-card-content>
+      <div class="d-flex flex-wrap">
+          <div>
+              <mat-card-title>Nueva Serie</mat-card-title>
+              <mat-card-subtitle>Crear series de Habilitación DIAN y/o Emisión</mat-card-subtitle>
+          </div>
+      </div>
+
+      <div>
+          <div *ngIf="companies_to_add.length == 0" class="form-group pad-adjust">
+              <div class="row buttonAling">
+                  <div class="form-group col-md-2">
+                      <h4>Agregar compañía</h4>
+                      <button mat-fab color="primary" (click)="AddCompanies()">
+              <mat-icon aria-label="Button con icono" matTooltip="Agregar compañías">library_add</mat-icon>
+            </button>
+                  </div>
+              </div>
+          </div>
+
+          <mat-chip-list #chipList multiple="true">
+              <mat-chip *ngFor="let company of companies_to_add" [value]="company.Id" [selectable]="true" [removable]="true" (removed)="RemoverCompany(company)">
+                  {{company.Name}}
+                  <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+              </mat-chip>
+          </mat-chip-list>
+      </div>
+      <br>
+
+      <div *ngIf="companies_to_add.length > 0">
+          <div *ngIf="ambiente != 'PRD'">
+              <section class="checkbox-section">
+                  <mat-checkbox class="checkbox-margin" [(ngModel)]="createSerieH">Serie de Habilitación</mat-checkbox>
+                  <mat-checkbox class="checkbox-margin" [(ngModel)]="createSerieE">Series de Emisión</mat-checkbox>
+              </section>
+          </div>
+
+          <div *ngIf="ambiente != 'QA'">
+              <section class="checkbox-section">
+                  <mat-checkbox class="checkbox-margin" [(ngModel)]="createSerieH">Serie de Habilitación</mat-checkbox>
+              </section>
+          </div>
+
+          <mat-tab-group>
+              <!-- Tab 1 -->
+              <mat-tab *ngIf="createSerieH" label="Serie de Habilitación">
+                  <mat-card class="mat-elevation-z0 outline">
+                      <mat-card-content>
+                          <mat-card-subtitle>Por favor ingrese la serie de habilitación DIAN para la{{companies_to_add.length > 1 ? 's empresas seleccionadas' : ' empresa seleccionada'}}</mat-card-subtitle>
+                          <form [formGroup]="FormGroup">
+                              <div formGroupName="series">
+                                  <!-- Linea 1. -->
+                                  <div class="form-group pad-adjust">
+                                      <div class="row">
+                                          <!-- Nombre. -->
+                                          <div class="form-group col-md-5">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Nombre</mat-label>
+                                                  <input type="text" matInput required value="Series" formControlName="name" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Prefijo. -->
+                                          <div class="form-group col-md-3">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Prefijo</mat-label>
+                                                  <input type="text" matInput required formControlName="prefix" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Valido desde. -->
+                                          <div class="form-group col-md-2">
+                                              <mat-form-field color="accent" class="input-width">
+                                                  <mat-label>Válido desde</mat-label>
+                                                  <input required matInput [matDatepicker]="picker1" formControlName="validFrom" />
+                                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                  <mat-datepicker #picker1 color="primary"></mat-datepicker>
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Valido hasta. -->
+                                          <div class="form-group col-md-2">
+                                              <mat-form-field color="accent" class="input-width">
+                                                  <mat-label>Válido hasta</mat-label>
+                                                  <input required matInput [matDatepicker]="picker2" formControlName="validTo" />
+                                                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                  <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                                              </mat-form-field>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Linea 2. -->
+                                  <div class="form-group pad-adjust">
+                                      <div class="row">
+                                          <!-- TestSetId. -->
+                                          <div class="form-group col-md-3">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>TestSetId</mat-label>
+                                                  <input type="text" matInput required formControlName="testSetId" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Número autorización DIAN. -->
+                                          <div class="form-group col-md-3">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Número autorización DIAN</mat-label>
+                                                  <input type="text" matInput required formControlName="authorizationNumber" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Valor inicial. -->
+                                          <div class="form-group col-md-2">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Valor inicial</mat-label>
+                                                  <input type="text" matInput required formControlName="startValue" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Valor Final. -->
+                                          <div class="form-group col-md-2">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Valor Final</mat-label>
+                                                  <input type="text" matInput required formControlName="endValue" />
+                                              </mat-form-field>
+                                          </div>
+
+                                          <!-- Valor Efectivo. -->
+                                          <div class="form-group col-md-2">
+                                              <mat-form-field class="input-width">
+                                                  <mat-label>Valor Efectivo</mat-label>
+                                                  <input type="text" matInput required formControlName="efectiveValue" />
+                                              </mat-form-field>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </form>
+                      </mat-card-content>
+                  </mat-card>
+              </mat-tab>
+              <!-- End Tab 1 -->
+              <!-- Tab 2 -->
+              <mat-tab *ngIf="createSerieE" label="Series de Emisión">
+                  <mat-card class="mat-elevation-z0 outline">
+                      <mat-card-content>
+                          <form id="myForm" [formGroup]="FormGroupSeriesEmision">
+                              <div [formArrayName]="'Series'">
+                                  <mat-card *ngFor="let x of documentTypes_Selected; let i = index">
+                                      <div [formGroupName]="i">
+                                          <!-- Check -->
+                                          <div class="form-group pad-adjust">
+                                              <div class="row">
+                                                  <!-- Selección. -->
+                                                  <div class="form-group col-md-12">
+                                                      <section class="checkbox-section">
+                                                          <mat-checkbox id="{{x.Selected}}{{i}}" formControlName="Selected" class="checkbox-margin" (change)="isSelected_documentTypes_SE(i)">{{x.Name}}</mat-checkbox>
+                                                      </section>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <!-- If Selecciona. -->
+                                          <div *ngIf="x.Selected">
+                                              <!-- Linea 1. -->
+                                              <div class="form-group pad-adjust">
+                                                  <div class="row" formGroupName="Serie">
+                                                      <!-- Nombre. -->
+                                                      <div class="form-group col-md-6">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Nombre</mat-label>
+                                                              <input type="text" matInput required id="{{x.Serie.Name}}" value="{{x.Serie.Name}}" formControlName="Name" />
+                                                          </mat-form-field>
+                                                      </div>
+                                                      <!-- Prefijo. -->
+                                                      <div class="form-group col-md-2">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Prefijo</mat-label>
+                                                              <input type="text" matInput id="{{x.Serie.Prefix}}" value="{{x.Serie.Prefix}}" formControlName="Prefix" />
+                                                          </mat-form-field>
+                                                      </div>
+                                                      <!-- Valido desde. -->
+                                                      <div class="form-group col-md-2">
+                                                          <mat-form-field color="accent" class="input-width">
+                                                              <mat-label>Válido desde</mat-label>
+                                                              <input required matInput [matDatepicker]="picker1" id="{{x.Serie.ValidFrom}}" value="{{x.Serie.ValidFrom}}" formControlName="ValidFrom" />
+                                                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                              <mat-datepicker #picker1 color="primary"></mat-datepicker>
+                                                          </mat-form-field>
+                                                      </div>
+                                                      <!-- Valido hasta. -->
+                                                      <div class="form-group col-md-2">
+                                                          <mat-form-field color="accent" class="input-width">
+                                                              <mat-label>Válido hasta</mat-label>
+                                                              <input required matInput [matDatepicker]="picker2" id="{{x.Serie.ValidTo}}" value="{{x.Serie.ValidTo}}" formControlName="ValidTo" />
+                                                              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                              <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                                                          </mat-form-field>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <!-- Linea 2. -->
+                                              <div class="form-group pad-adjust">
+                                                  <div class="row" formGroupName="Serie">
+                                                      <!-- Valor inicial. -->
+                                                      <div class="form-group col-md-3">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Valor inicial</mat-label>
+                                                              <input type="text" matInput required id="{{x.Serie.StartValue}}" value="{{x.Serie.StartValue}}" formControlName="StartValue" />
+                                                          </mat-form-field>
+                                                      </div>
+
+                                                      <!-- Valor Final. -->
+                                                      <div class="form-group col-md-3">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Valor Final</mat-label>
+                                                              <input type="text" matInput required id="{{x.Serie.EndValue}}" value="{{x.Serie.EndValue}}" formControlName="EndValue" />
+                                                          </mat-form-field>
+                                                      </div>
+
+                                                      <!-- Auto incrementada. -->
+                                                      <div class="form-group col-md-3">
+                                                          <section class="checkbox-section">
+                                                              <mat-checkbox class="checkbox-margin" formControlName="AutoIncrement" (click)="isAutoincrementada_SE(i)">Auto incrementada</mat-checkbox>
+                                                          </section>
+                                                      </div>
+
+                                                      <!-- Valor Efectivo. -->
+                                                      <div *ngIf="x.Serie.AutoIncrement" class="form-group col-md-3">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Valor Efectivo</mat-label>
+                                                              <input type="text" matInput id="{{x.Serie.EfectiveValue}}" value="{{x.Serie.EfectiveValue}}" formControlName="EfectiveValue" />
+                                                          </mat-form-field>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <!-- Linea 3. -->
+                                              <div class="form-group pad-adjust">
+                                                  <div class="row" formGroupName="Serie">
+                                                      <!-- Número de autorización. -->
+                                                      <div class="form-group col-md-6">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Número de autorización</mat-label>
+                                                              <input type="text" matInput required id="{{x.Serie.AuthorizationNumber}}" value="{{x.Serie.AuthorizationNumber}}" formControlName="AuthorizationNumber" />
+                                                          </mat-form-field>
+                                                      </div>
+                                                      <!-- Clave Técnica. -->
+                                                      <div class="form-group col-md-6">
+                                                          <mat-form-field class="input-width">
+                                                              <mat-label>Clave Técnica</mat-label>
+                                                              <input type="text" matInput required id="{{x.Serie.TechnicalKey}}" value="{{x.Serie.TechnicalKey}}" formControlName="TechnicalKey" />
+                                                          </mat-form-field>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                  </mat-card>
+                              </div>
+                          </form>
+                      </mat-card-content>
+                  </mat-card>
+              </mat-tab>
+              <!-- End Tab 2 -->
+          </mat-tab-group>
+      </div>
+
+      <mat-card-actions *ngIf="companies_to_add.length > 0" align="end">
+          <button mat-raised-button *ngIf="creando || (!createSerieH && !createSerieE)" disabled color="accent">Crear Series</button>
+          <button mat-raised-button *ngIf="!creando && (createSerieH || createSerieE)" (click)="CreateSeries()" color="accent">Crear Series</button>
+      </mat-card-actions>
+      <mat-progress-bar *ngIf="creando" mode="indeterminate"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,185 @@
+<form [formGroup]="FormGroup" (ngSubmit)="onSubmit()">
+    <mat-card-content class="margin-top-tittle">
+        <mat-card-title>Servicios contratados</mat-card-title>
+        <mat-card-subtitle>Por favor seleccione los servicios contratados</mat-card-subtitle>
+
+        <mat-chip-list #chipList multiple="true">
+            <mat-chip *ngFor="let sev of services_selected" [value]="sev.Code" [selected]="sev.selected" (click)="sev.selected = !sev.selected; onselectservice()" matTooltip="{{
+          sev.selected
+            ? 'Haga click para desactivar servicio'
+            : 'Haga click para activar servicio'
+        }}" matTooltipPosition="above">
+                <mat-icon *ngIf="sev.selected">check</mat-icon>
+                {{ sev.Name }}
+            </mat-chip>
+        </mat-chip-list>
+        <mat-error *ngIf="!servSelection">Por favor seleccione uno o más servicios contratados.</mat-error>
+    </mat-card-content>
+
+    <mat-card-content class="margin-top-tittle">
+        <mat-card-title>Información Empresa</mat-card-title>
+        <mat-card-subtitle>Por favor ingrese la información de la empresa</mat-card-subtitle>
+
+        <div formGroupName="company">
+            <!-- Linea 1. -->
+            <div>
+                <div class="row">
+                    <!-- Información  Legal. -->
+                    <div class="form-group col-md-3">
+                        <mat-form-field class="input-width">
+                            <mat-label>Tipo de persona</mat-label>
+                            <mat-select formControlName="legaltype" (selectionChange)="legalSelectChange($event)" required>
+                                <input class="input-width" placeholder="Buscar..." (keyup)="onKey_ltypes($event)" />
+                                <mat-option *ngFor="let dato of selected_legaltypes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Tipo de identificación. -->
+                    <div class="form-group col-md-2">
+                        <mat-form-field class="input-width">
+                            <mat-label>Tipo de identificación</mat-label>
+                            <mat-select formControlName="documenttype" (valueChange)="identificationSelectChange($event)" required>
+                                <input class="input-width" placeholder="Buscar..." (keyup)="onKey_itypes($event)" />
+                                <mat-option *ngFor="let dato of selected_identificationdocumenttypes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Número de identificación. -->
+                    <div class="form-group col-md-4">
+                        <mat-form-field class="input-width">
+                            <mat-label>Número de identificación</mat-label>
+                            <input type="text" matInput formControlName="documentnumber" required (focusout)="DigitoVerificacion()" />
+                        </mat-form-field>
+                    </div>
+                    <!-- Dígito de verificación. -->
+                    <div class="form-group col-md-3">
+                        <mat-form-field class="input-width">
+                            <mat-label>Dígito de verificación</mat-label>
+                            <input type="text" matInput formControlName="checkdigit" required/>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- If el tipo de persona legal . -->
+            <div *ngIf="legalSelected != 'Legal'; then notlegal; else legal"></div>
+            <ng-template #legal>
+                <!-- Linea 2. -->
+                <div>
+                    <div class="row">
+                        <!-- Nombre. -->
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="input-width">
+                                <mat-label>Nombre</mat-label>
+                                <input type="text" matInput required formControlName="name" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- País. -->
+                        <div class="form-group col-md-2">
+                            <mat-form-field class="input-width">
+                                <mat-label>País</mat-label>
+                                <mat-select formControlName="countrycode" required>
+                                    <input class="input-width" placeholder="Buscar..." (keyup)="onKey_countries($event)" />
+                                    <mat-option *ngFor="let dato of selected_countrycodes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Esquema. -->
+                        <div class="form-group col-md-2">
+                            <mat-form-field class="input-width">
+                                <mat-label>Esquema</mat-label>
+                                <mat-select formControlName="taxscheme" required>
+                                    <mat-option *ngFor="let dato of taxschemes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Distribuidor. -->
+                        <div class="form-group col-md-2">
+                            <mat-form-field class="input-width">
+                                <mat-label>Distribuidor</mat-label>
+                                <mat-select formControlName="distributorid" required>
+                                    <mat-option *ngFor="let dato of listdist" value="{{ dato.Id }}">{{ dato.Name }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #notlegal>
+                <!-- Linea 2. -->
+                <div>
+                    <div class="row">
+                        <!-- Nombre. -->
+                        <div class="form-group col-md-4">
+                            <mat-form-field class="input-width">
+                                <mat-label>Nombre</mat-label>
+                                <input type="text" matInput required formControlName="firstname" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Otro Nombre. -->
+                        <div class="form-group col-md-3">
+                            <mat-form-field class="input-width">
+                                <mat-label>Otros nombres</mat-label>
+                                <input type="text" matInput formControlName="middlename" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Apellidos. -->
+                        <div class="form-group col-md-5">
+                            <mat-form-field class="input-width">
+                                <mat-label>Apellidos</mat-label>
+                                <input type="text" matInput required formControlName="familyname" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- Linea 3. -->
+                    <div class="form-group pad-adjust">
+                        <div class="row">
+                            <!-- País. -->
+                            <div class="form-group col-md-6">
+                                <mat-form-field class="input-width">
+                                    <mat-label>País</mat-label>
+                                    <mat-select formControlName="countrycode" required>
+                                        <input class="input-width" placeholder="Buscar..." (keyup)="onKey_countries($event)" />
+                                        <mat-option *ngFor="let dato of selected_countrycodes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <!-- Esquema. -->
+                            <div class="form-group col-md-3">
+                                <mat-form-field class="input-width">
+                                    <mat-label>Esquema</mat-label>
+                                    <mat-select formControlName="taxscheme" required>
+                                        <mat-option *ngFor="let dato of taxschemes" value="{{ dato.Code }}">{{ dato.Name }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Distribuidor. -->
+                            <div class="form-group col-md-3">
+                                <mat-form-field class="input-width">
+                                    <mat-label>Distribuidor</mat-label>
+                                    <mat-select formControlName="distributorid" required>
+                                        <mat-option *ngFor="let dato of listdist" value="{{ dato.Id }}">{{ dato.Name }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <mat-card-actions align="end">
+            <button mat-raised-button color="accent">
+        {{ editing ? "Actualizar Datos" : "Siguiente" }}
+      </button>
+        </mat-card-actions>
+    </mat-card-content>
+</form>

@@ -1,0 +1,26 @@
+/* Styles SnackBar */
+::ng-deep  .info {
+  color: #ffffff !important;
+  background-color: #2196F3 !important;
+}
+
+::ng-deep .success{
+  color: white !important;
+  background-color: #47AD2C !important;
+}
+
+::ng-deep .alert{
+  color: white !important;
+  background-color: #FC4B6C !important;
+}
+
+::ng-deep snack-bar-container simple-snack-bar .mat-simple-snackbar-action {
+  color: whitesmoke;
+}
+
+::ng-deep mat-button-toggle-group{
+  outline: none;
+}
+
+
+

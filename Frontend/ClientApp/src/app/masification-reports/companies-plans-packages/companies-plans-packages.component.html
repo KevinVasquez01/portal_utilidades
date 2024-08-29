@@ -1,0 +1,34 @@
+<div fxLayout="row wrap">
+  <!-- Generar -->
+  <div *ngIf="!showresults" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <h3 *ngIf="!running" class="m-t-0">
+            Generar Informe de Planes y/o Paquetes Asignados por Empresa
+          </h3>
+          <div *ngIf="!running && !error" class="ml-auto">
+            <button mat-raised-button color="primary" (click)="runReport()">
+              Generar Informe
+            </button>
+          </div>
+
+          <div *ngIf="running">
+            <mat-card-title>Generando Informe de Planes y/o Paquetes Asignados por Empresa</mat-card-title>
+            <mat-card-subtitle *ngIf="this.ListCompaniesPlansPackagesExcel.length == 0">Recuperando empresas OV Saphety</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="this.ListCompaniesPlansPackagesExcel.length != 0">Consultando información empresa {{this.ListCompaniesPlansPackagesExcel.length}} de {{this.listCompaniesPlansPackages.length}}</mat-card-subtitle>
+          </div>
+        </div>
+        <mat-progress-bar
+          *ngIf="running"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Mostrar resultados -->
+  <div *ngIf="showresults" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-companies-plans-packages-results [tabla1]="ListCompaniesPlansPackagesExcel" [tabla2]="ListCompaniesPlansPackagesDetail"></app-companies-plans-packages-results>
+  </div>
+</div>

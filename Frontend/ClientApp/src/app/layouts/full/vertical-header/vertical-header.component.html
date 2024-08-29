@@ -1,0 +1,111 @@
+<!-- ============================================================== -->
+<!-- Notification - style you can find in header.scss -->
+<!-- ============================================================== -->
+<button
+  *ngIf="notifications.length > 0"
+  [matMenuTriggerFor]="notification"
+  mat-icon-button
+  class="m-r-5"
+>
+  <mat-icon>message</mat-icon>
+  <div class="notify">
+    <span class="heartbit"></span>
+    <span class="point"></span>
+  </div>
+</button>
+<mat-menu #notification="matMenu" class="mymegamenu">
+  <div class="mailbox">
+    <ul>
+      <li>
+        <div class="drop-title text-muted">Notificaciones</div>
+      </li>
+      <li>
+        <div
+          class="{{
+            notifications.length > 2
+              ? 'message-center'
+              : notifications.length <= 1
+              ? 'message-center_one'
+              : 'message-center_two'
+          }}"
+        >
+          <perfect-scrollbar [config]="config">
+            <!-- Message -->
+            <div *ngFor="let notification of notifications">
+              <a [routerLink]="notification.url">
+                <div class="round {{ notification.round }}">
+                  <i class="{{ notification.icon }}"></i>
+                </div>
+                <div class="mail-content">
+                  <h5>{{ notification.notification1 }}</h5>
+                  <span class="mail-desc text-muted">{{
+                    notification.text1
+                  }}</span>
+                  <span class="mail-desc text-muted">{{
+                    notification.text2
+                  }}</span>
+                  <span class="time text-muted">{{
+                    notification.date | date: "d/M/yy, h:mm a"
+                  }}</span>
+                </div>
+              </a>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </li>
+    </ul>
+  </div>
+</mat-menu>
+
+<!-- ============================================================== -->
+<!-- Profile - style you can find in header.scss -->
+<!-- ============================================================== -->
+<button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5 ml-xs overflow-visible">
+  <mat-icon>settings</mat-icon>
+</button>
+<mat-menu #profile="matMenu" class="mymessage">
+  <div class="mailbox">
+    <ul>
+      <li>
+        <div class="drop-title">
+          {{usuario_name}}
+          <span
+            *ngIf="ambient == 'PRD' || ambient == 'QA'"
+            matTooltip="Logueado en ambiente: {{ ambient }}"
+            matTooltipPosition="left"
+            class="label-ambient label-rounded {{
+              ambient == 'QA' ? 'label-info' : 'label-warning'
+            }}"
+            >{{ ambient }}</span
+          >
+        </div>
+      </li>
+      <li>
+        <button
+          *ngIf="!logged"
+          mat-menu-item
+          [routerLink]="['/authentication/login']"
+        >
+          <mat-icon>login</mat-icon> Iniciar sesión
+        </button>
+        <button
+          *ngIf="logged"
+          mat-menu-item
+          [routerLink]="['/authentication/logout']"
+        >
+          <mat-icon>exit_to_app</mat-icon> Cerrar sesión
+        </button>
+      </li>
+    </ul>
+  </div>
+</mat-menu>
+
+<!-- ============================================================== -->
+<!-- Logo icon -->
+<!-- ============================================================== -->
+<i class="wi wi-sunset">
+  <img
+    src="assets/images/sovos-saphety-white-super.png"
+    alt="homepage"
+    class="light-logo"
+/></i>

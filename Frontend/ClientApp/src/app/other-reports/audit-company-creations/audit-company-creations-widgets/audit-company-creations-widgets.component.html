@@ -1,0 +1,95 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <!-- column -->
+  <div *ngIf="data[0] != '0'" fxFlex.gt-sm="{{size}}" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button mat-fab mat-card-icon color="accent" class="shadow-none">
+              <mat-icon>card_travel</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h3 class="m-0">{{data[0]}}</h3>
+            <h6 class="text-muted m-0">Empresas Autorizadas</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+  <!-- column -->
+  <div *ngIf="data[0] != '0'" fxFlex.gt-sm="{{size}}" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button mat-fab color="accent" mat-card-icon class="shadow-none bg-inverse bg-success">
+              <mat-icon>stars</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h3 *ngIf="data[1].length <= 18 || !showall" class="m-0">{{data[1]}}</h3>
+            <h5 *ngIf="data[1].length > 18 && showall" class="m-0">{{data[1]}}</h5>
+            <h6 class="text-muted m-0">Autorizó {{data[2]}} empresas</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+  <!-- column -->
+  <div *ngIf="data[3] != '0'" fxFlex.gt-sm="{{size}}" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button mat-fab color="warn" mat-card-icon class="shadow-none">
+              <mat-icon>work_off</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h3 class="m-0">{{data[3]}}</h3>
+            <h6 class="text-muted m-0">Empresas Eliminadas</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+  <!-- column -->
+  <div *ngIf="data[3] != '0'" fxFlex.gt-sm="{{size}}" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <!-- Row -->
+        <div class="d-flex no-block">
+          <!-- column -->
+          <div class="m-r-10 no-shrink">
+            <button mat-fab color="accent" mat-card-icon class="shadow-none bg-warning">
+              <mat-icon>offline_bolt</mat-icon>
+            </button>
+          </div>
+          <!-- column -->
+          <div>
+            <h3 *ngIf="data[4].length <= 18 || !showall" class="m-0">{{data[4]}}</h3>
+            <h5 *ngIf="data[4].length > 18 && showall" class="m-0">{{data[4]}}</h5>
+            <h6 class="text-muted m-0">Eliminó {{data[5]}} empresas</h6>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+</div>

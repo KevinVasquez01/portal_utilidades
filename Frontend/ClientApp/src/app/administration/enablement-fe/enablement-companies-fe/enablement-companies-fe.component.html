@@ -1,0 +1,122 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>Compañías por Habilitar</mat-card-title>
+            <mat-card-subtitle
+              >Compañías pendientes de habilitación</mat-card-subtitle
+            >
+          </div>
+          <div class="ml-auto">
+            <ul class="list-inline">
+              <li>
+                <div *ngIf="!first_document.hasError('required') && !first_document.hasError('min') && !first_document.hasError('max')" class="button-row">
+                  <button
+                    mat-button
+                    color="accent"
+                    [disabled]=""
+                    (click)="confirmacionCrearCompanies()"
+                  >
+                    Iniciar proceso de Habilitación
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <form class="basic-form">
+          <div fxLayout="row wrap" fxFlexAlign="center" class="row">
+            <!-- column -->
+            <div fxFlex.gt-sm="25" fxFlex="100" class="p-10">
+              <mat-form-field>
+                <mat-label>Documento de Inicio</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  [formControl]="first_document"
+                  placeholder="Documento de Inicio"
+                />
+                <mat-error *ngIf="first_document.hasError('required')">
+                  Documento de inicio <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="first_document.hasError('min')">
+                  Documento de inicio debe ser mayor a <strong>0</strong>
+                </mat-error>
+                <mat-error *ngIf="first_document.hasError('max')">
+                  Documento de inicio debe ser menor a <strong>5.000.000</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+
+        <div class="responsive-table">
+          <mat-table #table [dataSource]="dataSource">
+            <!-- Alias_Operador_Virtual Column -->
+            <ng-container matColumnDef="Alias_Operador_Virtual">
+              <mat-header-cell *matHeaderCellDef> Alias OV </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.company_excel?.Alias_Operador_Virtual }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Nit Column -->
+            <ng-container matColumnDef="Nit">
+              <mat-header-cell *matHeaderCellDef> Nit </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.company_excel?.Nit }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Name">
+              <mat-header-cell *matHeaderCellDef> Compañía </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element?.company_saphety?.Name }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- ExternalKey Column -->
+            <ng-container matColumnDef="ExternalKey">
+              <mat-header-cell *matHeaderCellDef> ExternalKey </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.serie_H_saphety?.ExternalKey }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- TestSetId Column -->
+            <ng-container matColumnDef="TestSetId">
+              <mat-header-cell *matHeaderCellDef> TestSetId </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.company_excel?.TestSetId }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Plan o Paquete Column -->
+            <ng-container matColumnDef="PlanOPaquete">
+              <mat-header-cell *matHeaderCellDef> Plan o Paquete </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.planopaquete != undefined ? 'Sí': 'Se creará uno Temporal, será borrado al finalizar habilitación.' }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="columnsToDisplay"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+          </mat-table>
+
+          <mat-paginator
+            #paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[10, 20, 50]"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

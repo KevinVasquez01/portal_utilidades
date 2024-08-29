@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-content>
+    <mat-card-title
+      >Activaciones {{ datehistory }}</mat-card-title
+    >
+    <mat-card-subtitle>Estadísticas de Informe</mat-card-subtitle>
+    <div id="chart" class="d-flex flex-column">
+      <apx-chart
+      [colors]="chartOptions.colors"
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [yaxis]="chartOptions.yaxis"
+      [xaxis]="chartOptions.xaxis"
+      [labels]="chartOptions.labels"
+      [stroke]="chartOptions.stroke"
+      [plotOptions]="chartOptions.plotOptions"
+      [markers]="chartOptions.markers"
+      [fill]="chartOptions.fill"
+      [tooltip]="chartOptions.tooltip"
+      [dataLabels]="chartOptions.dataLabels"
+    ></apx-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

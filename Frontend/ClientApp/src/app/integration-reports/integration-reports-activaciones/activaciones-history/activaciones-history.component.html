@@ -1,0 +1,452 @@
+<!-- getting data -->
+<div *ngIf="Getting_data" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-1 m-t-5">
+          <div class="loading-shade-1">
+            <!-- Cargando -->
+            <div *ngIf="Getting_data_errors.length === 0">
+              <mat-spinner></mat-spinner>
+            </div>
+
+            <!-- Error getdata -->
+            <div *ngIf="Getting_data_errors.length !== 0">
+              <h4>No fue posible obtener Historial de informes</h4>
+              <div class="button-row">
+                <button
+                  *ngIf="!gettingDE"
+                  mat-fab
+                  color="primary"
+                  matTooltip="Intentar nuevamente"
+                  (click)="awaitReportHistory()"
+                >
+                  <mat-icon aria-label="Reload">refresh</mat-icon>
+                </button>
+                <mat-spinner *ngIf="gettingDE"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Statistics -->
+<div *ngIf="!Getting_data && !showingDetail" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Estadísticas informes </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+          <!-- Statistics -->
+          <app-history-activations-statistics
+            [reportHistoryData]="reportHistoryData"
+          ></app-history-activations-statistics>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Statistics -->
+<!-- <div *ngIf="!Getting_data && !showingDetail" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Estadísticas informes 1 </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <app-history-activations-statistics1
+            [reportHistoryData]="reportHistoryData"
+          ></app-history-activations-statistics1>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+</div> -->
+
+<!-- all reports -->
+<div
+  *ngIf="!Getting_data && !showingDetail"
+  fxLayout="row"
+  fxLayoutAlign="center start"
+>
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card class="mat-card-top chat-app position-relative">
+      <mat-sidenav-container
+        [ngClass]="{
+          'side-panel-opened': sidePanelOpened,
+          'side-panel-closed': !sidePanelOpened
+        }"
+        style="min-height: 82vh"
+      >
+        <mat-sidenav
+          #chatnav
+          right
+          [mode]="isOver() ? 'over' : 'side'"
+          [opened]="!isOver()"
+          (open)="sidePanelOpened = true"
+          (close)="sidePanelOpened = false"
+          position="end"
+        >
+          <!-- Ordenar por -->
+          <mat-toolbar class="no-shadow bg-white">
+            <div fxLayout="row" fxFlex="100">
+              <h4>Ordenar por</h4>
+            </div>
+          </mat-toolbar>
+          <mat-nav-list>
+            <mat-list-item
+              (click)="orderblClick('date')"
+              class="all font-normal"
+              [class.active]="selectedOrder === 'date'"
+            >
+              Fecha
+              <mat-icon
+                *ngIf="selectedOrder == 'date'"
+                class="ml-auto"
+                color="{{ filtereddate ? 'primary' : 'warn' }}"
+                >{{
+                  filtereddate ? "arrow_downward" : "arrow_upward"
+                }}</mat-icon
+              >
+            </mat-list-item>
+            <mat-list-item
+              (click)="orderblClick('user')"
+              class="complete font-normal"
+              [class.active]="selectedOrder === 'user'"
+            >
+              Usuario
+              <mat-icon
+                *ngIf="selectedOrder == 'user'"
+                class="ml-auto"
+                color="{{ filtereduser ? 'primary' : 'warn' }}"
+                >{{
+                  filtereduser ? "arrow_downward" : "arrow_upward"
+                }}</mat-icon
+              >
+            </mat-list-item>
+            <mat-list-item
+              (click)="orderblClick('new_companies')"
+              class="complete font-normal"
+              [class.active]="selectedOrder === 'new_companies'"
+            >
+              Nuevas empresas
+              <mat-icon
+                *ngIf="selectedOrder == 'new_companies'"
+                class="ml-auto"
+                color="{{ filterednewCompanies ? 'primary' : 'warn' }}"
+                >{{
+                  filterednewCompanies ? "arrow_downward" : "arrow_upward"
+                }}</mat-icon
+              >
+            </mat-list-item>
+            <mat-list-item
+              (click)="orderblClick('new_money')"
+              class="complete font-normal"
+              [class.active]="selectedOrder === 'new_money'"
+            >
+              Ingreso
+              <mat-icon
+                *ngIf="selectedOrder == 'new_money'"
+                class="ml-auto"
+                color="{{ filterednewMoney ? 'primary' : 'warn' }}"
+                >{{
+                  filterednewMoney ? "arrow_downward" : "arrow_upward"
+                }}</mat-icon
+              >
+            </mat-list-item>
+          </mat-nav-list>
+
+          <!-- Filtrar por -->
+          <mat-toolbar class="no-shadow bg-white">
+            <div fxLayout="row" fxFlex="100">
+              <h4>Filtrar por tipo</h4>
+            </div>
+          </mat-toolbar>
+          <mat-nav-list>
+            <!-- Todos -->
+            <mat-list-item
+              (click)="filterblClick('all')"
+              class="all font-normal"
+              [class.active]="selectedCategory === 'all'"
+            >
+              Todos
+              <mat-chip-list class="ml-auto">
+                <mat-chip color="warn" selected>{{
+                  reportHistoryData.length
+                }}</mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
+            <!--  Activaciones FE -->
+            <mat-list-item
+              (click)="filterblClick('invoice_activations')"
+              class="complete font-normal"
+              [class.active]="selectedCategory === 'invoice_activations'"
+            >
+              Activaciones FE
+              <mat-chip-list class="ml-auto">
+                <mat-chip class="mat-chip-fe" selected>{{
+                  countType("invoice_activations")
+                }}</mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
+            <!-- Activaciones DS -->
+            <mat-list-item
+              (click)="filterblClick('supportdocument_activations')"
+              class="complete font-normal"
+              [class.active]="
+                selectedCategory === 'supportdocument_activations'
+              "
+            >
+              Activaciones DS
+              <mat-chip-list class="ml-auto">
+                <mat-chip class="mat-chip-ds" selected>{{
+                  countType("supportdocument_activations")
+                }}</mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
+            <!-- Activaciones RE -->
+            <mat-list-item
+              (click)="filterblClick('reception_activations')"
+              class="complete font-normal"
+              [class.active]="selectedCategory === 'reception_activations'"
+            >
+              Activaciones RE
+              <mat-chip-list class="ml-auto">
+                <mat-chip class="mat-chip-re" selected>{{
+                  countType("reception_activations")
+                }}</mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
+            <!-- Activaciones NE -->
+            <mat-list-item
+              (click)="filterblClick('payroll_activations')"
+              class="complete font-normal"
+              [class.active]="selectedCategory === 'payroll_activations'"
+            >
+              Activaciones NE
+              <mat-chip-list class="ml-auto">
+                <mat-chip class="mat-chip-ne" selected>{{
+                  countType("payroll_activations")
+                }}</mat-chip>
+              </mat-chip-list>
+            </mat-list-item>
+          <!--  Activaciones DE -->
+          <mat-list-item
+          (click)="filterblClick('EquivalentDoc_activations')"
+          class="complete font-normal"
+          [class.active]="selectedCategory === 'EquivalentDoc_activations'"
+        >
+          Activaciones DE
+          <mat-chip-list class="ml-auto">
+            <mat-chip class="mat-chip-de" selected>{{
+              countType("EquivalentDoc_activations")
+            }}</mat-chip>
+          </mat-chip-list>
+        </mat-list-item>
+      </mat-nav-list>
+        </mat-sidenav>
+        <mat-toolbar class="bg-light b-b no-shadow chat-right-panel p-l-25">
+          <div fxLayout="row" fxFlex="100" class="align-items-center">
+            <div class="d-flex align-items-center w-100">
+              <mat-card-title
+                >Historial de informes Activaciones generados</mat-card-title
+              >
+              <div class="ml-auto d-flex align-items-center">
+                <mat-chip-list>
+                  <mat-chip color="warn" selected
+                    >Total de informes: {{ reportHistoryData.length }}
+                  </mat-chip> </mat-chip-list
+                >&nbsp;&nbsp;
+                <button
+                  (click)="chatnav.toggle()"
+                  color="accent"
+                  class="ml-1 shadow-none"
+                  mat-mini-fab
+                >
+                  <mat-icon>short_text</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-toolbar>
+
+        <!-- Tabla -->
+        <mat-card-content class="chat-middle-box" style="min-height: 70vh">
+          <div class="align-middle mb-0 table table-borderless table-hover">
+            <mat-table
+              #table
+              [dataSource]="dataSource"
+              style="max-height: 700px; overflow: auto"
+            >
+              <!-- Tipo de informe -->
+              <ng-container matColumnDef="report_type">
+                <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{
+                    element.report_type === "payroll_activations"
+                      ? "Activaciones NE"
+                      : element.report_type === "invoice_activations"
+                      ? "Activaciones FE"
+                      : element.report_type === "supportdocument_activations"
+                      ? "Activaciones DS"
+                      : element.report_type === "reception_activations"
+                      ? "Activaciones RE"
+                      : element.report_type === "EquivalentDoc_activations"
+                      ? "Activaciones DE"
+                      : element.report_type
+                  }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Fecha generación -->
+              <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.date | date: "dd/MM/yyyy" }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Usuario que generó -->
+              <ng-container matColumnDef="user">
+                <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.user }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Nuevas empresas -->
+              <ng-container matColumnDef="new_companies">
+                <mat-header-cell *matHeaderCellDef>
+                  Nuevas empresas
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.new_companies }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Ingreso -->
+              <ng-container matColumnDef="new_money">
+                <mat-header-cell *matHeaderCellDef> Ingreso </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.new_money | currency: "USD":"symbol":"1.0-0" }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- action -->
+              <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef> Detalle </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <a mat-icon-button (click)="mostrarDetalle(element)">
+                    <mat-icon class="text-info">remove_red_eye</mat-icon>
+                  </a>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></mat-header-row>
+              <mat-row
+                *matRowDef="let row; columns: displayedColumns"
+              ></mat-row>
+            </mat-table>
+          </div>
+        </mat-card-content>
+      </mat-sidenav-container>
+    </mat-card>
+  </div>
+</div>
+
+<!-- details -->
+<div
+  *ngIf="!Getting_data && showingDetail"
+  fxLayout="row wrap"
+  class="course-app"
+>
+  <!-- Detalle informe -->
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex flex-wrap">
+          <div>
+            <mat-card-title>
+              Detalle informe
+              {{
+                reportSelected.report_type === "payroll_activations"
+                  ? "Activaciones NE"
+                  : reportSelected.report_type === "invoice_activations"
+                  ? "Activaciones FE"
+                  : reportSelected.report_type === "supportdocument_activations"
+                  ? "Activaciones DS"
+                  : reportSelected.report_type === "reception_activations"
+                  ? "Activaciones RE"
+                  : reportSelected.report_type === "EquivalentDoc_activations"
+                  ? "Activaciones DE"
+                  : reportSelected.report_type
+              }}
+            </mat-card-title>
+          </div>
+          <div class="ml-auto d-flex align-items-center">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="ocultarDetalle()"
+            >
+              Regresar a todos los informes
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- Resultados widgets -->
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-activaciones-widgets
+      [isHistory]="true"
+      [report_type]="reportSelected.reportTypeNumber"
+      [user]="reportSelected.user"
+      [company_count]="WD_company_count"
+      [company_money]="WD_company_money"
+      [report_history]="WD_report_history"
+    ></app-activaciones-widgets>
+  </div>
+
+  <!-- Resultados table -->
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-activaciones-table
+      [report_type]="reportSelected.reportTypeNumber"
+      [CreateOpp_Table]="
+        reportSelected.reportTypeNumber == 1
+          ? CreateInvoiceOpp_Table
+          : reportSelected.reportTypeNumber == 2
+          ? CreatePayrollOpp_Table
+          : reportSelected.reportTypeNumber == 3
+          ? CreateSupportDocumentOpp_Table          
+          : reportSelected.reportTypeNumber == 4
+          ? CreateReceptionOpp_Table
+          : CreateEquivalentOpp_Table
+      "
+      [CreateProject_Table]="
+        reportSelected.reportTypeNumber == 1
+          ? CreateInvoiceProject_Table
+          : reportSelected.reportTypeNumber == 2
+          ? CreatePayrollProject_Table
+          : reportSelected.reportTypeNumber == 3
+          ? CreateSupportDocumentProject_Table
+          : reportSelected.reportTypeNumber == 4
+          ? CreateReceptionProject_Table
+          : CreateEquivalentProject_Table
+      "
+      [FechaInforme]="reportSelected.date"
+    ></app-activaciones-table>
+  </div>
+</div>

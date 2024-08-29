@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-content class="m-b-0">
+    <mat-card-title>Cambios recientes</mat-card-title>
+    <mat-card-subtitle>Compañías modificadas recientemente</mat-card-subtitle>
+  </mat-card-content>
+  <div *ngIf="history_show.length > 0" class="comment-widgets">
+    <!-- Comment Row -->
+    <div class="d-flex flex-row comment-row" *ngFor="let history of history_show">
+      <div class="p-2">
+        <span class="round label-{{ history.class }} float-left">
+          <span>{{history.initials}}</span>
+        </span>
+      </div>
+      <div class="comment-text w-100 p-t-0">
+        <h5 class="m-0 font-medium">{{ history.company }}</h5>
+        <p class="m-b-5 m-t-5 text-muted font-14">{{ history.document }}</p>
+        <div class="comment-footer">
+          <span class="text-muted pull-right font-14">{{ history.date | date :'mediumDate' }}</span>
+          <span class="label label-{{ history.class }} float-left">{{ history.user }}</span>
+          <span (click)="onSelect(history)" class="action-icons">
+            <a href="javascript:void(0)">
+              <i class="ti-eye"></i>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,76 @@
+<div fxLayout="row wrap">
+  <!-- column Habilitando -->
+  <div
+    *ngIf="companies_status.status.length > 0 && !companies_status?.results"
+    fxFlex.gt-sm="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Realizando proceso de Habilitación</mat-card-title>
+        <mat-card-subtitle>Por favor no cierre esta página</mat-card-subtitle>
+
+        <div *ngFor="let company of companies_status.status">
+          <div class="p-10">
+            <!-- column -->
+            <div class="font-light m-0">{{ company.company }}</div>
+            <div class="font-light m-0">{{ company.nit }}</div>
+            <h4 class="text-muted m-t-0">{{ company.current_action }}</h4>
+            <mat-progress-bar
+              color="{{
+                company.finalize ? (company.error ? 'warn' : 'accent') : ''
+              }}"
+              mode="{{ company.finalize ? 'determinate' : 'indeterminate' }}"
+              value="{{ company.finalize ? '100' : '40' }}"
+            ></mat-progress-bar>
+          </div>
+        </div>
+      </mat-card-content>
+      <!-- <mat-spinner></mat-spinner> -->
+    </mat-card>
+  </div>
+
+  <!-- column Cargar compañías -->
+  <div
+    *ngIf="companies_status.status.length == 0"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-enablement-load-companies
+      (companies_for_enablement)="receive_companies_for_enablement($event)"
+    ></app-enablement-load-companies>
+  </div>
+
+  <!-- column habilitar compañías -->
+  <div
+    *ngIf="
+      companies_for_enablement.length > 0 && companies_status.status.length == 0
+    "
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-enablement-companies-fe
+      [companies_for_enablement]="companies_for_enablement"
+      (companies_status)="receive_companies_status($event)"
+    ></app-enablement-companies-fe>
+  </div>
+
+  <!-- column Log final -->
+  <div
+    *ngIf="companies_status?.results"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-enablement-log
+      [enablement_finalize_log]="companies_status?.results"
+      (exit)="receive_log_close($event)"
+    ></app-enablement-log>
+  </div>
+</div>

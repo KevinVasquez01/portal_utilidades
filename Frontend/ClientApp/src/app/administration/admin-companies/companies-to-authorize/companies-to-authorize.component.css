@@ -1,0 +1,29 @@
+.blue-icon {
+    color: blue;
+}
+
+.green-icon {
+    color: green;
+}
+
+.red-icon {
+    color: red;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    padding: 5px 5px;
+}
+
+.mat-cell {
+    font-size: 12px;
+}
+
+.mat-button-toggle-checked {
+    background-color: #2979FF;
+    color: white;
+}

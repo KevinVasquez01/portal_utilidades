@@ -1,0 +1,48 @@
+<div fxLayout="row wrap">
+  <!-- column Log-->
+  <div
+    *ngIf="showlogs"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-templates-log
+      (datasaliente)="receiveLogClose($event)"
+      [messages]="logs"
+    ></app-templates-log>
+  </div>
+
+  <!-- column Crear Templates-->
+  <div
+    *ngIf="!showlogs"
+    fxFlex.gt-lg="{{ searchisclosed ? '100' : '56' }}"
+    fxFlex.gt-md="{{ searchisclosed ? '100' : '56' }}"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-templates-create
+      (datasaliente)="receiveNewTemplate($event)"
+      (logsaliente)="receiveCompanyLogs($event)"
+      (closesearchcompanies)="receiveCompanySearchClose($event)"
+      [companies_to_add]="companies_to_add"
+    ></app-templates-create>
+  </div>
+  <!-- column Buscar Compañías -->
+  <div
+    *ngIf="!searchisclosed"
+    fxFlex.gt-lg="44"
+    fxFlex.gt-md="44"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <app-search-company
+      [tittle]="search_tittle"
+      [subtittle]="search_subtittle"
+      [buttontooltip]="search_buttontooltip"
+      (datasaliente)="receiveCompanySearch($event)"
+      (closesaliente)="receiveCompanySearchClose($event)"
+    >
+    </app-search-company>
+  </div>
+</div>

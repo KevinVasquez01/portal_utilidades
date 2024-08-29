@@ -1,0 +1,128 @@
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex flex-wrap">
+      <div>
+        <mat-card-title>Resultados</mat-card-title>
+        <mat-card-subtitle>Resultados de Habilitación</mat-card-subtitle>
+      </div>
+      <div class="ml-auto">
+        <div class="button-row text-success m-0">
+          <button mat-button color="accent" (click)="exportExcel()">
+            Exportar a Excel
+          </button>
+          <button mat-button color="warn" (click)="close()">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="responsive-table">
+      <table
+        mat-table
+        [dataSource]="enablement_finalize_log"
+        multiTemplateDataRows
+        class="mat-elevation-z8"
+      >
+        <ng-container
+          matColumnDef="Alias_Operador_Virtual"
+        >
+          <th mat-header-cell *matHeaderCellDef>Alias Operador Virtual</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.company_excel.Alias_Operador_Virtual }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          matColumnDef="Nit"
+        >
+          <th mat-header-cell *matHeaderCellDef>Nit</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.company_excel.Nit }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          matColumnDef="Name"
+        >
+          <th mat-header-cell *matHeaderCellDef>Compañía</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.company_saphety?.Name }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          matColumnDef="TestSetId"
+        >
+          <th mat-header-cell *matHeaderCellDef>TestSetId</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.company_excel.TestSetId }}
+          </td>
+        </ng-container>
+
+        <ng-container
+        matColumnDef="PlanOPaquete"
+      >
+        <th mat-header-cell *matHeaderCellDef>Plan o Paquete</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.planopaquete != '' ? 'Sí' : 'No' }}
+        </td>
+      </ng-container>
+
+        <ng-container
+          matColumnDef="Result"
+        >
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+             <i *ngIf="element?.enablement_result" matTooltip="Resultado: Ok" class="fa fa-thumbs-o-up green-icon font-15 m-r-10"></i>
+            <i *ngIf="!element?.enablement_result" matTooltip="Resultado: Error" class="fa fa-thumbs-o-down red-icon font-15 m-r-10"></i>
+          </td>
+        </ng-container>
+
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [attr.colspan]="columnsToDisplay.length"
+          >
+            <div
+              class="example-element-detail"
+              [@detailExpand]="
+                element === expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              <div
+                fxFlex.gt-lg="100"
+                fxFlex.gt-md="100"
+                fxFlex.gt-xs="100"
+                fxFlex="100"
+              >
+                <!-- Expanded -->
+                <app-enablement-log-details
+                  [data_entrante]="element"
+                ></app-enablement-log-details>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: columnsToDisplay"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="
+            expandedElement = expandedElement === element ? null : element
+          "
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['expandedDetail']"
+          class="example-detail-row"
+        ></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

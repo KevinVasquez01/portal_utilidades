@@ -1,0 +1,43 @@
+<mat-card>
+    <mat-card-content class="margin-top-tittle mat-elevation-z0 outline">
+        <div class="d-flex flex-wrap">
+            <div>
+                <mat-card-title>Resultados</mat-card-title>
+                <mat-card-subtitle>Resultado de la creación de Templates</mat-card-subtitle>
+            </div>
+            <div class="ml-auto">
+                <ul class="list-inline">
+                    <li>
+                        <h6 class="text-success m-0">
+                            <button mat-button color="primary" (click)="close()">Cerrar</button>
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <mat-accordion class="headers-align">
+            <mat-expansion-panel *ngFor="let data of dataSource">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{data.CompanyName}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{data.OperatorName}}
+                        <mat-icon matTooltip="Resultado: {{data.Result ? 'Ok' : 'Error'}}" class="{{data.Result ? 'green-icon' : 'red-icon'}}">{{data.Result ? 'check_circle' : 'error'}}</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ul class="clr-timeline clr-timeline-vertical">
+                    <li class="clr-timeline-step" *ngFor="let element of data.Logs">
+                        <div class="clr-timeline-step-header">{{ element.Date | date: "h:mm:ss a" }}</div>
+                        <mat-icon *ngIf="element.Result" shape="success-standard" aria-label="Completed" matTooltip="Resultado: Ok">check_circle</mat-icon>
+                        <mat-icon *ngIf="!element.Result" shape="error-standard" aria-label="Error" matTooltip="Resultado: Error">error</mat-icon>
+                        <div class="clr-timeline-step-body">
+                            <span class="clr-timeline-step-title">{{ element.TemplateName }}</span>
+                            <span class="clr-timeline-step-description">{{ element.Message }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

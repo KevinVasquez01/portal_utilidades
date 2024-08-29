@@ -1,0 +1,120 @@
+<div
+  class="login-register"
+  style="background-image: url(assets/images/background/login-register.jpg)"
+>
+  <div class="login-register-box">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onLogin()">
+          <div class="text-left">
+            <img
+              alt="homepage"
+              src="assets/images/sovos-saphety-black-super.png"
+            />
+          </div>
+          <br />
+          <div class="text-center">
+            <h2 class="m-t-0">Iniciar Sesión</h2>
+          </div>
+
+          <div fxLayout="row wrap">
+            <!-- Email input -->
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="Usuario"
+                  [formControl]="form.controls['uname']"
+                />
+              </mat-form-field>
+              <small
+                *ngIf="
+                  form.controls['uname'].hasError('required') &&
+                  form.controls['uname'].touched
+                "
+                class="text-danger support-text"
+                >Usuario requerido.</small
+              >
+            </div>
+            <!-- Password input -->
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-form-field>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  placeholder="Contraseña"
+                  [formControl]="form.controls['password']"
+                />
+                <mat-icon matSuffix (click)="hide = !hide">{{
+                  hide ? "visibility" : "visibility_off"
+                }}</mat-icon>
+              </mat-form-field>
+              <small
+                *ngIf="
+                  form.controls['password'].hasError('required') &&
+                  form.controls['password'].touched
+                "
+                class="text-danger support-text"
+                >Contraseña requerida.</small
+              >
+            </div>
+
+            <!-- Operator input -->
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="Operador Virtual"
+                  [formControl]="form.controls['virtualoperator']"
+                />
+              </mat-form-field>
+            </div>
+
+            <!-- Ambient input -->
+            <div fxFlex.gt-sm="100" fxFlex="100">
+              <mat-form-field>
+                <mat-select
+                  placeholder="Seleccione un Ambiente"
+                  [formControl]="form.controls['ambient']"
+                >
+                  <mat-option value="PRD">Producción (PRD)</mat-option>
+                  <mat-option value="QA">Pruebas (QA)</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <small
+                *ngIf="
+                  form.controls['ambient'].hasError('required') &&
+                  form.controls['ambient'].touched
+                "
+                class="text-danger support-text"
+                >Ambiente requerido.</small
+              >
+            </div>
+
+            <!-- col full-->
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <button
+                mat-raised-button
+                color="primary"
+                class="btn-block btn-lg m-t-20 m-b-20"
+                type="submit"
+                [disabled]="!form.valid"
+              >
+                Iniciar Sesión
+              </button>
+            </div>
+            <!-- col full-->
+            <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <span>
+                <a [routerLink]="['/']" class="text-info link"
+                  ><mat-icon class="-icon">arrow_back</mat-icon>Regresar al
+                  Inicio</a
+                >
+              </span>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

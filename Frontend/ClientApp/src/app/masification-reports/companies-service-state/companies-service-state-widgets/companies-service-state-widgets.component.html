@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex align-items-center">
+      <mat-card-title>{{ widgets?.Aliado }}</mat-card-title>
+    </div>
+    <div id="chart" class="d-flex flex-column">
+      <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [plotOptions]="chartOptions.plotOptions"
+      [labels]="chartOptions.labels"
+      [legend]="chartOptions.legend"
+      [responsive]="chartOptions.responsive"
+      [tooltip]="chartOptions.tooltip"
+    ></apx-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

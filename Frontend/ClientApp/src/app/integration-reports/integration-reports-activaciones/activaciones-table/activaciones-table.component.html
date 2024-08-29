@@ -1,0 +1,73 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <mat-card-title
+            >Descargar Informe:</mat-card-title
+          >
+          <div class="ml-auto">
+            <div class="button-row">
+              <button mat-mini-fab color="accent" (click)="exportExcel()">
+                Excel
+              </button>
+
+              <button mat-mini-fab color="warn" (click)="exportJSON()">
+                Json
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <mat-table
+            matTableExporter
+            [dataSource]="dataSource"
+            #exporter="matTableExporter"
+          >
+            <ng-container matColumnDef="OV.Column1.Name">
+              <mat-header-cell *matHeaderCellDef> Nombre OV </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["OV.Column1.Name"] }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Column1.Identification.DocumentNumber">
+              <mat-header-cell *matHeaderCellDef>
+                No Documento
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["Column1.Identification.DocumentNumber"] }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="OPPORTUNITY NAME">
+              <mat-header-cell *matHeaderCellDef>
+                Nombre Oportunidad
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["OPPORTUNITY NAME"] }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="PRICE">
+              <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.PRICE | currency: "USD":"symbol":"1.0-0" }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

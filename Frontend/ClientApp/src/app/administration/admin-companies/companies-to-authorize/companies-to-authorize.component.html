@@ -1,0 +1,206 @@
+<mat-card>
+    <mat-card-content>
+        <div class="d-flex flex-wrap">
+            <div>
+                <mat-card-title>Compañías por crear</mat-card-title>
+                <mat-card-subtitle>Compañías pendientes de creación</mat-card-subtitle>
+            </div>
+            <div class="ml-auto">
+                <ul class="list-inline">
+                    <li>
+                        <h6 class="text-success m-0">
+                            <button mat-button color="accent" [disabled]="creandoCompanies" (click)="confirmacionCrearCompanies()">Crear compañías</button>
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Operador virtual</mat-label>
+            <mat-select (selectionChange)="changeOperator($event.value)" [(value)]="opvSelected.Alias">
+                <input class="input-width" placeholder="Buscar..." (keyup)="onKey_opv($event)" />
+                <mat-option *ngFor="let dato of selected_opv" value="{{ dato.Alias }}">{{ dato.Name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="ambiente == 'QA' ? false : true">
+            <!--Crear planes o paquetes. -->
+            <span>Crear Planes y/o Paquetes: </span>
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="m-l-20" #group="matButtonToggleGroup" [value]="tarifasPRD.create" (change)="changeplanopaquete(group.value)">
+                <mat-button-toggle [value]="true"> Sí </mat-button-toggle>
+                <mat-button-toggle [value]="false"> No </mat-button-toggle>
+            </mat-button-toggle-group>
+            <br/>
+            <div *ngIf="cargandoPaquetes">
+                <br/>
+                <mat-progress-bar mode="query"></mat-progress-bar>
+            </div>
+            <br/>
+            <mat-tab-group color="accent">
+                <!-- Tab 1 -->
+                <mat-tab *ngIf="tarifas_to_create.FE.length > 0" label="Seleccionados FE">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-list *ngFor="let row of tarifas_to_create.FE">
+                                <mat-list-item>
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                        <!-- Recepción. -->
+                                        <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                        <!-- Envío. -->
+                                        <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                    </div>
+
+                                    <h4 class="m-0 font-10"> {{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <!-- End Tab 1 -->
+                <!-- Tab 2 -->
+                <mat-tab *ngIf="tarifas_to_create.DS.length > 0" label="Seleccionados DS">
+                  <mat-card>
+                      <mat-card-content>
+                          <mat-list *ngFor="let row of tarifas_to_create.DS">
+                              <mat-list-item>
+                                  <div class="m-r-20">
+                                      <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                      <!-- Recepción. -->
+                                      <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                      <!-- Envío. -->
+                                      <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                  </div>
+
+                                  <h4 class="m-0 font-10"> {{row.Name}}
+                                      <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                  </h4>
+                              </mat-list-item>
+                          </mat-list>
+                      </mat-card-content>
+                  </mat-card>
+              </mat-tab>
+              <!-- End Tab 2 -->
+                <!-- Tab 3 -->
+                <mat-tab *ngIf="tarifas_to_create.NE.length > 0" label="Seleccionados NE">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-list *ngFor="let row of tarifas_to_create.NE">
+                                <mat-list-item>
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                        <!-- Recepción. -->
+                                        <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                        <!-- Envío. -->
+                                        <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                    </div>
+
+                                    <h4 class="m-0 font-10"> {{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <!-- End Tab 3 -->
+
+                <!-- Tab 4 -->
+                <mat-tab *ngIf="tarifas_to_create.DE.length > 0" label="Seleccionados DE">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-list *ngFor="let row of tarifas_to_create.DE">
+                                <mat-list-item>
+                                    <div class="m-r-20">
+                                        <img class="img-circle" width="40" src="assets/images/packagesPDR/{{row.Type}}.png" matTooltip="{{row.Type == 'Postpaid' ? 'Planes de Documentos' : 'Paquetes de Documentos'}}" alt="Image">
+                                        <!-- Recepción. -->
+                                        <span *ngIf="row.PlanType == 'Inbound' || row.PlanType == ''" matTooltip="Recepción" class="bg-danger text-white rounded font-10 pl-5 pr-5">↓</span>
+                                        <!-- Envío. -->
+                                        <span *ngIf="row.PlanType == 'Outbound' || row.PlanType == ''" matTooltip="Envío" class="bg-success text-white rounded font-10 pl-5 pr-5">↑</span>
+                                    </div>
+
+                                    <h4 class="m-0 font-10"> {{row.Name}}
+                                        <small class="bg-megna text-white rounded font-10 pl-5 pr-5" matTooltip="Precio">{{row.Price | currency}}</small>
+                                    </h4>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <!-- End Tab 4 -->
+            </mat-tab-group>
+        </div>
+
+        <div>
+            <table mat-table [dataSource]="dataSource" matSort class="align-middle mb-0 table table-borderless table-hover">
+                <!-- Servicios -->
+                <ng-container cdkColumnDef="services">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>Servicios</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                      <!-- FV. -->
+                      <span *ngIf="row.dataCreations[0].salesinvoice_included" matTooltip="Factura de Venta" class="bg-success text-white rounded font-10 pl-5 pr-5">FV</span>
+                      <span>&nbsp;</span>
+                      <!-- DS. -->
+                      <span *ngIf="row.dataCreations[0].documentsuport_included" matTooltip="Documento Soporte" class="bg-warning text-white rounded font-10 pl-5 pr-5">DS</span>
+                      <span>&nbsp;</span>
+                      <!-- NI. -->
+                      <span *ngIf="row.dataCreations[0].payrroll_included" matTooltip="Nómina Electrónica" class="bg-primary text-white rounded font-10 pl-5 pr-5">NE</span>
+                      <span>&nbsp;</span>
+                      <!-- RE. -->
+                      <span *ngIf="row.dataCreations[0].reception_salesinvoice_included" matTooltip="Recepción Electrónica" class="bg-danger text-white rounded font-10 pl-5 pr-5">RE</span>
+                      <!-- DE. -->
+                      <span *ngIf="row.dataCreations[0].equivalentdocumentincluded" matTooltip="Documento Equivalente" class="bg-primary text-white rounded font-10 pl-5 pr-5">DE</span>
+                    </td>
+                </ng-container>
+
+                <!-- Distribuidor -->
+                <ng-container matColumnDef="distributorId">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>Distribuidor</th>
+                    <td mat-cell *matCellDef="let row">{{ distributorName(row.distributorid) }}</td>
+                </ng-container>
+
+                <!-- Tipo -->
+                <ng-container matColumnDef="documentType">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>Tipo</th>
+                    <td mat-cell *matCellDef="let row">{{ row.documenttype }}</td>
+                </ng-container>
+
+                <!-- Número de Documento -->
+                <ng-container matColumnDef="documentNumber">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>Documento</th>
+                    <td mat-cell *matCellDef="let row">
+                        <div *ngIf="row.checkDigit == ''">{{ row.documentnumber }}</div>
+                        <div *ngIf="row.checkDigit != ''">{{ row.documentnumber }}-{{ row.checkdigit }}</div>
+                    </td>
+                </ng-container>
+
+                <!-- Nombre empresa -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear>
+                        Nombre empresa
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <div *ngIf="row.name != ''">{{ row.name }}</div>
+                        <div *ngIf="row.firstname != ''">{{ row.firstname }} {{ row.middlename }} {{ row.familyname }}</div>
+                    </td>
+                </ng-container>
+
+                <!-- Acciones -->
+                <ng-container cdkColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef matSortDisableClear></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button matTooltip="Cancelar" mat-icon-button (click)="cancelitem(element)"><mat-icon class="material-icons red-icon">cancel</mat-icon></button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+        <mat-progress-bar *ngIf="creandoCompanies" mode="indeterminate"></mat-progress-bar>
+    </mat-card-content>
+</mat-card>

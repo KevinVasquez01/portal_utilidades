@@ -1,0 +1,175 @@
+<div fxLayout="row wrap">
+  <!-- ============================================================== -->
+  <!-- Filtros Buscar-->
+  <!-- ============================================================== -->
+  <div fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Generar informe</mat-card-title>
+        <mat-card-subtitle
+          >Por favor seleccione un rango de fechas de Empresas que diligenciaron
+          Formulario, para consultar</mat-card-subtitle
+        >
+        <!-- ============================================================== -->
+        <!-- Parametros busqueda -->
+        <!-- ============================================================== -->
+        <form>
+          <div fxLayout="row wrap" class="align-items-center">
+            <!-- Rango Fechas -->
+            <div fxFlex.gt-sm="80" fxFlex="100" class="p-10">
+              <mat-form-field appearance="standard">
+                <mat-label>Rango de fechas</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="picker"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    placeholder="Fecha Inicial"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    placeholder="Fecha Final"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #picker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>
+                      Cancelar
+                    </button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matDateRangePickerApply
+                    >
+                      Aplicar
+                    </button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Fecha inicial incorrecta</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Fecha final incorrecta</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div
+              *ngIf="
+                range.controls.start.value != null &&
+                !range.controls.start.hasError('matStartDateInvalid') &&
+                !range.controls.end.hasError('matEndDateInvalid')
+              "
+              fxFlex.gt-md="20"
+              class="text-right"
+            >
+              <button mat-raised-button (click)="generate()" color="accent">
+                Generar Informe
+              </button>
+            </div>
+          </div>
+        </form>
+        <mat-progress-bar
+          *ngIf="generando"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- Resultados -->
+  <!-- ============================================================== -->
+  <div *ngIf="showresults" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap">
+          <!-- Descargar -->
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <div class="d-flex align-items-center">
+              <!-- Estadística -->
+              <div fxFlex.gt-sm="80" fxFlex.gt-xs="80" fxFlex="80">
+                <mat-card-title>Descargar Informe {{ companiesExcel.length }} Empresas</mat-card-title>
+                <h6 class="text-muted m-0">Periodo seleccionado</h6>
+              </div>
+              <div class="ml-auto">
+                <div class="button-row">
+                  <button mat-mini-fab color="accent" (click)="exportExcel()">
+                    Excel
+                  </button>
+
+                  <button mat-mini-fab color="warn" (click)="exportJSON()">
+                    Json
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-rasponsive">
+          <mat-table
+            #table
+            [dataSource]="dataSource"
+            matSort
+            style="max-height: 400px; overflow: auto"
+          >
+            <!-- Aliado ERP Column -->
+            <ng-container matColumnDef="distributorId">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Aliado ERP
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["Aliado ERP"] }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Nit Column -->
+            <ng-container matColumnDef="documentNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Nit
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["NIT sin dígito de verificación"] }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Razón Social Empresa Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Razón Social Empresa
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element["Razón Social Empresa"] }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Fecha Column -->
+            <ng-container matColumnDef="lastupdate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha Creación/Actualización
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.Fecha }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

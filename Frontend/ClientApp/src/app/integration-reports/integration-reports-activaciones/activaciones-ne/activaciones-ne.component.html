@@ -1,0 +1,166 @@
+<!-- getting data -->
+<div *ngIf="Getting_data" fxLayout="row wrap">
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-1 m-t-5">
+          <div class="loading-shade-1">
+            <!-- Cargando -->
+            <div *ngIf="Getting_data_errors.length === 0">
+              <mat-spinner></mat-spinner>
+            </div>
+
+            <!-- Error getdata -->
+            <div *ngIf="Getting_data_errors.length !== 0">
+              <h4>No fue posible obtener Datos OV para generar informe.</h4>
+              <div class="button-row">
+                <button
+                  *ngIf="!gettingDE"
+                  mat-fab
+                  color="primary"
+                  matTooltip="Intentar nuevamente"
+                  (click)="awaitDataElements()"
+                >
+                  <mat-icon aria-label="Reload">refresh</mat-icon>
+                </button>
+                <mat-spinner *ngIf="gettingDE"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div
+  *ngIf="!Getting_data && !end_report"
+  fxLayout="row wrap"
+  class="course-app"
+>
+  <!-- Ejecutar -->
+  <div
+    *ngIf="!running_report"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-header
+        class="course-header {{ ambient === 'PRD' ? 'Ejecutar' : 'Error' }}"
+      >
+        <mat-card-title>
+          <span *ngIf="ambient === 'PRD'" class="course-name"
+            >Tiempo que tarda en ejecutarse el Informe (Depende de la velocidad
+            de su conexión a Internet)</span
+          >
+          <span *ngIf="ambient === 'QA'" class="course-name"
+            >Este informe no se encuentra disponible en ambiente de Pruebas
+            (QA)</span
+          >
+          <span *ngIf="ambient === 'PRD'" class="course-duration">
+            <mat-icon class="m-r-10">access_time</mat-icon>3 Minutos
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="text-center">
+        <p *ngIf="ambient === 'PRD'" class="m-b-5">
+          {{
+            Last_time_activationsReport_generation_NE
+              | date: "dd/MM/yyyy hh:mm a"
+          }}
+        </p>
+        <small>{{
+          ambient === "PRD"
+            ? "Última ejecución Informe"
+            : "Por favor inicie sesión en ambiente de Producción (PRD)."
+        }}</small>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <button
+          (click)="want_Run_Report()"
+          mat-raised-button
+          color="ejecutar"
+          [disabled]="ambient === 'QA'"
+        >
+          Generar Informe (Activaciones NE)
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- Ejecutando -->
+  <div
+    *ngIf="running_report"
+    fxFlex.gt-lg="100"
+    fxFlex.gt-md="100"
+    fxFlex.gt-xs="100"
+    fxFlex="100"
+  >
+    <mat-card>
+      <mat-card-header
+        class="course-header {{
+          errorsAPI.length === 0 ? 'Ejecutando' : 'Error'
+        }}"
+      >
+        <mat-card-title>
+          <span *ngIf="errorsAPI.length === 0" class="course-name"
+            >Ejecutando Informe</span
+          >
+          <span *ngIf="errorsAPI.length !== 0" class="course-name"
+            >Ocurrió un error al consultar empresas</span
+          >
+          <span *ngIf="errorsAPI.length === 0" class="course-duration">
+            <mat-icon class="m-r-10">access_time</mat-icon>menos de 3 Minutos
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="errorsAPI.length === 0" class="text-center">
+        <p class="m-b-5">{{ actually_action.action }}</p>
+        <small>Ambiente: {{ actually_action.ambient }}</small>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <mat-progress-bar
+          *ngIf="actually_action.ambient !== '*' && errorsAPI.length === 0"
+          class="progress-color"
+          mode="indeterminate"
+          value="40"
+        ></mat-progress-bar>
+        <button
+          *ngIf="errorsAPI.length > 0"
+          (click)="showLog()"
+          mat-raised-button
+          color="error"
+        >
+          Ver Log Errores (Consola Navegador).
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<!-- Resultados -->
+<div
+  *ngIf="end_report && errorsAPI.length == 0"
+  fxLayout="row wrap"
+  class="course-app"
+>
+  <!-- Resultados widgets -->
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-activaciones-widgets
+      [report_type]="2"
+      [total_companies_SalesForce]="WD_total_companies_SalesForce"
+      [company_count]="WD_company_count"
+      [company_money]="WD_company_money"
+      [report_history]="WD_report_history"
+    ></app-activaciones-widgets>
+  </div>
+
+  <!-- Resultados table -->
+  <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+    <app-activaciones-table
+      [report_type]="2"
+      [CreateOpp_Table]="CreatePayrollOpp_Table"
+      [CreateProject_Table]="CreatePayrollProject_Table"
+    ></app-activaciones-table>
+  </div>
+</div>

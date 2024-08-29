@@ -1,0 +1,115 @@
+{
+  "Root": "https://api-factura-electronica-co-qa.saphety.com/v2/",
+  "GET": [
+    {
+      "key": "gettoken",
+      "value": "auth/gettoken"
+    },
+    {
+      "key": "countrycodes",
+      "value": "dataelements/countrycodes"
+    },
+    {
+      "key": "timezones",
+      "value": "dataelements/timezones"
+    },
+    {
+      "key": "departments",
+      "value": "dataelements/departments"
+    },
+    {
+      "key": "cities",
+      "value": "dataelements/cities"
+    },
+    {
+      "key": "postalcodes",
+      "value": "dataelements/postalcodes"
+    },
+    {
+      "key": "responsabilitytypes",
+      "value": "dataelements/responsabilitytypes"
+    },
+    {
+      "key": "account",
+      "value": "account"
+    },
+    {
+      "key": "taxschemes",
+      "value": "dataelements/taxschemes"
+    },
+    {
+      "key": "companyRoles",
+      "value": "roles/companyRoles"
+    },
+    {
+      "key": "serviceoffercontrol",
+      "value": "serviceoffercontrol"
+    },
+    {
+      "key": "DocumentTypesSalesInvoice",
+      "value": "dataelements/DocumentTypes"
+    },
+    {
+      "key": "DocumentSubTypesSalesInvoice",
+      "value": "dataelements/DocumentSubTypes"
+    },
+    {
+      "key": "DocumentTypesPayRoll",
+      "value": "dataelements/TipoNomina"
+    },
+    {
+      "key": "payrollstagingdocumentstatus",
+      "value": "dataelements/payrollstagingdocumentstatus"
+    },
+    {
+      "key": "invoicestagingdocumentstatus",
+      "value": "dataelements/stagingdocumentstatus"
+    }
+  ],
+  "POST": [
+    {
+      "key": "gettoken",
+      "value": "auth/gettoken"
+    },
+    {
+      "key": "virtualOperators",
+      "value": "virtualOperators/search"
+    },
+    {
+      "key": "newCompany",
+      "value": "saphety/companies"
+    },
+    {
+      "key": "distributors_search",
+      "value": "saphety/distributors/search"
+    },
+    {
+      "key": "users_search",
+      "value": "users/search"
+    },
+    {
+      "key": "searchdistributors",
+      "value": "saphety/distributors/search"
+    },
+    {
+      "key": "searchpayrollstagingdocumentstatus",
+      "value": "documentsstaging/payroll/search"
+    },
+    {
+      "key": "searchinvoicestagingdocumentstatus",
+      "value": "documentsstaging/outbound/search"
+    },
+    {
+      "key": "translationsResources",
+      "value": "translations/resource"
+    },
+    {
+      "key": "translationsResourcesaddOrUpdate",
+      "value": "translations/description/addOrUpdate"
+    },
+    {
+      "key": "serviceoffercontrol",
+      "value": "serviceoffercontrol"
+    }
+  ]
+}
